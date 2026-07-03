@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" preserveAspectRatio="xMidYMid meet" width="200" height="200">
+  <rect x="0" y="0" width="1024" height="1024" rx="80" ry="80" fill="#F5F5F5"/>
+  <path d="M512 128 L768 230 V438 C768 590 658 716 512 780 C366 716 256 590 256 438 V230 Z"
+        fill="none" stroke="#9CA3AF" stroke-width="32" stroke-linejoin="round"/>
+  <path d="M512 176 L724 260 V438 C724 564 632 668 512 724 C392 668 300 564 300 438 V260 Z"
+        fill="#9CA3AF" fill-opacity="0.15"/>
+  <rect x="480" y="280" width="64" height="220" rx="32" ry="32" fill="#9CA3AF"/>
+  <circle cx="512" cy="584" r="40" fill="#9CA3AF"/>
+  <text x="512" y="900" text-anchor="middle"
+        font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif"
+        font-size="120" fill="#6B7280" font-weight="500">内容已下架</text>
+</svg>

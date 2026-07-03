@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>陳宏强AI - AI大模型聚合平台 | AI对话·AI绘画·AI视频·AI智能体</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='28' font-size='28'>🤖</text></svg>">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" id="fa-cdn">
+<style>
+/* ===== FONT ===== */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+/* ===== COLOR SYSTEM (extracted from original) ===== */
+:root{
+  --color-primary:#00cae0;--c-primary-rgb:0,202,224;
+  --c-primary-3:#00cae008;--c-primary-5:#00cae00d;--c-primary-8:#00cae014;
+  --c-primary-10:#00cae01a;--c-primary-12:#00cae01f;--c-primary-15:#00cae026;
+  --c-primary-20:#00cae033;--c-primary-25:#00cae040;--c-primary-30:#00cae04d;
+  --c-primary-40:#00cae066;--c-primary-50:#00cae080;--c-primary-59:#00cae059;
+  --c-primary-66:#00cae0a6;--c-primary-80:#00cae0cc;
+  --c-emerald:#00e5a0;--c-purple:#7850ff;
+  --color-text-primary:#f5fbff;--color-text-secondary:#8c99a0;--color-text-tertiary:#60696e;
+  --text-heading:#ffffffeb;--text-link:#5c9eff;
+  --w-3:#ffffff08;--w-5:#ffffff0d;--w-8:#ffffff14;--w-10:#ffffff1a;
+  --w-12:#ffffff1f;--w-15:#ffffff26;--w-20:#ffffff33;--w-25:#ffffff40;
+  --w-30:#ffffff4d;--w-40:#ffffff66;--w-50:#ffffff80;
+  --b-15:#00000026;--b-20:#0003;--b-25:#00000040;--b-30:#0000004d;
+  --b-40:#0006;--b-50:#00000080;
+  --shadow-sm:0 .125rem .5rem #0000004d;
+  --shadow-md:0 .25rem .75rem #0006;
+  --shadow-lg:0 .5rem 1.5rem #00000080;
+  --scrollbar-thumb:#ffffff14;--scrollbar-thumb-hover:#ffffff26;
+  --nav-h:4rem;--tr:0.3s ease;
+}
+
+[data-theme="dark"]{
+  --bg-deep:#06080c;--bg-page:#0f0f12;--bg-page-2:#0c0c0f;--bg-page-3:#101014;
+  --bg-page-4:#121216;--bg-page-5:#121218;
+  --bg-panel:#141419;--bg-panel-2:#141519;--bg-panel-3:#16161c;
+  --bg-card:#1c1e22;--bg-card-2:#1e1f25;--bg-card-3:#1f2227;
+  --bg-elevated:#292b33;--bg-elevated-2:#2a2d33;
+  --bg-hover-solid:#23252a;--bg-input:#1b1c21;
+  --nav-bg:rgba(6,8,12,0.85);
+  --card-bg:rgba(255,255,255,0.04);--card-bg-2:rgba(255,255,255,0.05);
+  --card-bd:rgba(255,255,255,0.08);--card-bd-2:rgba(255,255,255,0.1);
+  --card-bd-h:#00cae033;--card-shadow:0 1.19rem 2.38rem #0000004d,0 0 1.79rem #00cae00f;
+  --footer-bg:#06080c;
+  --glass:rgba(255,255,255,0.04);
+}
+[data-theme="light"]{
+  --bg-page:#f8f9fa;--bg-card:#fcfdfe;--bg-panel:#ffffff;
+  --bg-elevated:#f0f1f3;--bg-hover-solid:#e8eaed;--bg-input:#ffffff;
+  --color-primary:#00a1c2;--c-primary-rgb:0,161,194;
+  --color-text-primary:#0f1419;--color-text-secondary:#646e78;--color-text-tertiary:#8b95a0;
+  --text-heading:#0f1419eb;--text-link:#2563eb;
+  --card-bg:rgba(0,0,0,0.03);--card-bg-2:rgba(0,0,0,0.04);
+  --card-bd:rgba(0,0,0,0.06);--card-bd-2:rgba(0,0,0,0.08);
+  --card-bd-h:rgba(0,161,194,0.3);--card-shadow:0 1.19rem 2.38rem rgba(0,0,0,0.08);
+  --nav-bg:rgba(248,249,250,0.85);
+  --footer-bg:#f0f1f3;
+  --glass:rgba(255,255,255,0.6);
+  --shadow-lg:0 .5rem 1.5rem rgba(0,0,0,0.06);
+}
+
+/* ===== BASE ===== */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{font-size:16px;scroll-behavior:smooth}
+body{font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'PingFang SC','HarmonyOS Sans','Microsoft YaHei',sans-serif;background:var(--bg-page);color:var(--color-text-secondary);overflow-x:hidden;line-height:1.5;transition:background-color .25s,color .2s,border-color .25s,box-shadow .25s}
+a{text-decoration:none;color:inherit}button{border:none;cursor:pointer;font-family:inherit}
+img{display:block;max-width:100%}
+::selection{background:rgba(var(--c-primary-rgb),0.2);color:var(--color-text-primary)}
+::-webkit-scrollbar{width:6px;height:6px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--scrollbar-thumb);border-radius:.18rem}::-webkit-scrollbar-thumb:hover{background:var(--scrollbar-thumb-hover)}
+
+/* ===== GLOBAL BACKGROUND (5-layer) ===== */
+.global-bg{pointer-events:none;z-index:0;position:fixed;inset:0;overflow:hidden}
+/* Layer 1: Rotating conic gradient */
+.gradient-flow{background:conic-gradient(from 0deg,#0000 0deg,#00cae00d 60deg,#0000 120deg,#00e5a00a 180deg,#0000 240deg,#7850ff0a 300deg,#0000 360deg);animation:60s linear infinite flowRotate;position:absolute;inset:-50%}
+@keyframes flowRotate{to{transform:rotate(360deg)}}
+/* Layer 2: Floating orbs */
+.gradient-orb{filter:blur(7.14rem);border-radius:50%;position:absolute}
+.orb-1{background:radial-gradient(circle,#00cae02e,#0000 70%);width:53.57rem;height:53.57rem;top:-30%;right:-20%;animation:25s ease-in-out infinite orbFloat}
+.orb-2{background:radial-gradient(circle,#00e5a01f,#0000 70%);width:47.62rem;height:47.62rem;bottom:-25%;left:-15%;animation:25s ease-in-out infinite orbFloat;animation-delay:-8s}
+.orb-3{background:radial-gradient(circle,#7850ff1a,#0000 70%);width:29.76rem;height:29.76rem;top:40%;left:25%;animation:25s ease-in-out infinite orbFloat;animation-delay:-16s}
+@keyframes orbFloat{0%,to{transform:translate(0) scale(1)}25%{transform:translate(4.76rem,-2.98rem) scale(1.15)}50%{transform:translate(-2.98rem,4.76rem) scale(.9)}75%{transform:translate(-4.76rem,-1.79rem) scale(1.1)}}
+/* Layer 3: Grid lines */
+.grid-lines{background-image:linear-gradient(#00cae008 1px,#0000 1px),linear-gradient(90deg,#00cae008 1px,#0000 1px);background-size:3.57rem 3.57rem;animation:10s ease-in-out infinite gridPulse;position:absolute;inset:0}
+@keyframes gridPulse{0%,to{opacity:.5}50%{opacity:1}}
+/* Layer 4: Particles */
+.particles{position:absolute;inset:0}
+.particle{background:#00cae0e6;border-radius:50%;position:absolute;box-shadow:0 0 .6rem #00cae099}
+@keyframes particleDrift{0%,to{transform:translate(0) scale(1);opacity:.6}25%{transform:translate(2rem,-3rem) scale(1.2);opacity:1}50%{transform:translate(-3rem,2rem) scale(.8);opacity:.4}75%{transform:translate(-1rem,-4rem) scale(1.1);opacity:.8}}
+/* Layer 5: Connection lines SVG */
+.conn-svg{position:absolute;inset:0;width:100%;height:100%}
+.conn-line{fill:none;stroke-width:.5px;stroke-dasharray:200;stroke-dashoffset:200px}
+.cl-1{stroke:#00cae01f;animation:12s linear infinite lineFlow}
+.cl-2{stroke:#00e5a01f;animation:12s linear infinite lineFlow;animation-delay:-4s}
+.cl-3{stroke:#7850ff1f;animation:12s linear infinite lineFlow;animation-delay:-8s}
+@keyframes lineFlow{0%{stroke-dashoffset:200px}50%{stroke-dashoffset:0}to{stroke-dashoffset:-200px}}
+
+/* ===== NAV (Header) ===== */
+.nav{z-index:100;transition:all .35s;position:fixed;top:0;left:0;right:0;height:var(--nav-h)}
+.nav.scrolled{background:var(--nav-bg);-webkit-backdrop-filter:blur(1.43rem);backdrop-filter:blur(1.43rem);border-bottom:1px solid #00cae00f}
+.nav-inner{justify-content:space-between;align-items:center;max-width:100%;height:100%;margin:0 auto;padding:0 2rem;display:flex}
+@media(max-width:40rem){.nav-inner{padding:0 .75rem}}
+.nav-logo{align-items:center;gap:.6rem;display:flex}
+.nav-logo-img{background:#000;border-radius:.4rem;width:2rem;height:2rem;overflow:hidden;box-shadow:0 0 .71rem #00cae04d;display:flex;align-items:center;justify-content:center}
+.nav-logo-img span{color:var(--color-primary);font-size:.65rem;font-weight:900;letter-spacing:-.02rem}
+.nav-logo-name{background:linear-gradient(135deg,var(--color-primary),#60f0ff);-webkit-text-fill-color:transparent;-webkit-background-clip:text;background-clip:text;font-size:1.1rem;font-weight:700}
+.nav-c{align-items:center;gap:.4rem;display:flex}
+.nav-btn{cursor:pointer;white-space:nowrap;border:none;align-items:center;gap:.35rem;padding:.4rem .85rem;font-size:.8rem;font-weight:500;transition:all .2s;display:flex;border-radius:.45rem}
+.nav-btn-ghost{color:var(--color-text-secondary);background:transparent;border:1px solid #ffffff0f}
+.nav-btn-ghost:hover{color:var(--color-primary);background:#00cae00d;border-color:#00cae040}
+.nav-btn-ghost i{font-size:.7rem}
+.nav-btn-solid{background:var(--color-primary);color:#fff;border:none;box-shadow:0 0 .95rem #00cae040}
+.nav-btn-solid:hover{transform:translateY(-.06rem);box-shadow:0 0 1.43rem #00cae073}
+.nav-btn-solid i{font-size:.6rem}
+.nav-r{align-items:center;gap:.4rem;display:flex}
+.lang-btn{padding:.4rem .85rem;border-radius:.45rem;background:transparent;border:1px solid #ffffff0f;color:var(--color-text-secondary);font-size:.78rem;font-weight:500;display:flex;align-items:center;gap:.35rem;transition:all .2s}
+.lang-btn:hover{color:var(--color-primary);background:#00cae00d;border-color:#00cae040}
+.theme-btn{width:2.2rem;height:2.2rem;border-radius:.45rem;background:transparent;border:1px solid #ffffff0f;color:var(--color-text-secondary);display:flex;align-items:center;justify-content:center;font-size:.85rem;transition:all .2s}
+.theme-btn:hover{color:var(--color-primary);background:#00cae00d;border-color:#00cae040}
+@media(max-width:40rem){.nav-c{display:none}.nav-btn-text{display:none}}
+
+/* ===== HERO ===== */
+.hero{flex-direction:column;justify-content:center;align-items:center;min-height:100vh;padding-top:4.5rem;display:flex;position:relative;overflow:hidden}
+.hero-inner{z-index:3;text-align:center;flex:1;justify-content:center;align-items:center;padding:0 1.5rem;display:flex;position:relative}
+.hero-center{width:100%;max-width:52rem;position:relative}
+
+/* ===== ORBIT (Pure CSS - extracted from original) ===== */
+.orbit-container{--orbit-r:26rem;z-index:-1;pointer-events:none;opacity:0;width:0;height:0;position:absolute;top:50%;left:50%;transform:scale(0) rotate(-360deg)}
+.orbit-container.orbit-go{animation:2.5s cubic-bezier(.16,1,.3,1) forwards orbitEntrance}
+@keyframes orbitEntrance{0%{opacity:0;transform:scale(0) rotate(-360deg)}15%{opacity:1}to{opacity:1;transform:scale(1.25) rotate(0)}}
+.orbit-spin{will-change:transform;width:0;height:0;position:absolute;top:0;left:0}
+.orbit-go .orbit-spin{animation:80s linear infinite orbitRotate}
+@keyframes orbitRotate{0%{transform:rotate(0)}to{transform:rotate(360deg)}}
+.orbit-item{width:0;height:0;transform:rotate(var(--angle)) translateY(calc(var(--orbit-r) * -1));position:absolute;top:0;left:0}
+.orbit-icon-wrap{transform:rotate(calc(var(--angle) * -1)) translateX(-50%);pointer-events:auto;cursor:default;opacity:0;flex-direction:column;align-items:center;gap:.18rem;transition:opacity 1.5s;display:flex}
+.orbit-go .orbit-icon-wrap{opacity:.5;animation:80s linear infinite orbitCounterRotate}
+.orbit-icon-wrap:hover{transition:opacity .3s;opacity:1!important}
+@keyframes orbitCounterRotate{0%{transform:rotate(calc(var(--angle) * -1)) translateX(-50%)}to{transform:rotate(calc(var(--angle) * -1 - 360deg)) translateX(-50%)}}
+.orbit-icon{object-fit:contain;filter:drop-shadow(0 0 .48rem #00cae01f);background:#1a1a22;border:1px solid #ffffff1a;border-radius:.48rem;width:1.79rem;height:1.79rem;padding:.24rem;transition:filter .3s,border-color .3s}
+.orbit-icon-wrap:hover .orbit-icon{filter:drop-shadow(0 0 .71rem #00cae04d);border-color:#00cae04d}
+.orbit-name{color:#ffffff59;white-space:nowrap;letter-spacing:.02em;text-overflow:ellipsis;text-align:center;max-width:3.81rem;font-size:.55rem;transition:color .3s;overflow:hidden}
+.orbit-icon-wrap:hover .orbit-name{color:#00cae0cc}
+
+/* Spotlight tooltip */
+.spotlight{z-index:10;pointer-events:none;will-change:left,top,transform,opacity;position:absolute;opacity:0;transition:opacity .2s}
+.spotlight.visible{opacity:1}
+.spotlight-card{flex-direction:column;align-items:center;min-width:8rem;max-width:14rem;display:flex;background:#141419f2;border:1px solid #ffffff1a;border-radius:.6rem;padding:.6rem .8rem;box-shadow:0 .5rem 1.5rem #00000080}
+.spotlight-img{object-fit:contain;filter:drop-shadow(0 0 .8rem #00cae04d);background:#1a1a22;border:1px solid #ffffff1a;border-radius:.6rem;width:3rem;height:3rem;margin-bottom:.5rem;padding:.3rem}
+.spotlight-name{color:var(--color-primary);font-size:.95rem;font-weight:700;margin-bottom:.2rem}
+.spotlight-desc{color:#ffffffb3;font-size:.72rem;line-height:1.6;text-align:center}
+
+/* ===== HERO CONTENT ===== */
+.hero-chip{color:var(--color-primary);letter-spacing:.06em;background:#00cae00f;border:1px solid #00cae026;border-radius:99rem;align-items:center;gap:.5rem;margin-bottom:2rem;padding:.35rem 1.1rem;font-size:.78rem;font-weight:600;display:inline-flex}
+.chip-pulse{background:var(--color-primary);width:.36rem;height:.36rem;box-shadow:0 0 .48rem var(--color-primary);border-radius:50%;animation:2s ease-in-out infinite chipPulse}
+@keyframes chipPulse{0%,to{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.7)}}
+.hero-h1{letter-spacing:-.03em;margin-bottom:1.5rem;font-size:clamp(2.5rem,5rem,5rem);font-weight:900;line-height:1.1;color:var(--text-heading)}
+.hero-h1 .line-1{display:block;color:var(--text-heading)}
+.hero-h1 .line-2{display:block}
+.typing-text{background:linear-gradient(135deg,var(--color-primary) 0%,#00e5a0 40%,#7850ff 100%);-webkit-text-fill-color:transparent;background-size:200% 200%;-webkit-background-clip:text;background-clip:text;animation:5s ease-in-out infinite gradientShift}
+@keyframes gradientShift{0%,to{background-position:0%}50%{background-position:100%}}
+.cursor-blink{color:var(--color-primary);font-weight:300;animation:1s step-end infinite blink}
+@keyframes blink{50%{opacity:0}}
+.hero-sub{color:var(--color-text-secondary);max-width:38rem;margin-bottom:2.5rem;margin-left:auto;margin-right:auto;font-size:1.1rem;line-height:1.75}
+.hero-cta{flex-wrap:wrap;justify-content:center;gap:.75rem;margin-bottom:3rem;display:flex}
+.cta-main{background:linear-gradient(135deg,var(--color-primary),#00a0c8);color:#fff;cursor:pointer;border:none;border-radius:99rem;align-items:center;gap:.5rem;padding:.9rem 2.2rem;font-size:1rem;font-weight:700;display:flex;box-shadow:0 0 1.79rem #00cae059,0 .24rem 1.19rem #00cae033;transition:all .3s}
+.cta-main:hover{transform:translateY(-.12rem);box-shadow:0 0 2.98rem #00cae080,0 .48rem 1.79rem #00cae04d}
+.cta-main i{font-size:.8rem;transition:transform .2s}
+.cta-main:hover i{transform:translate(.18rem)}
+.cta-sub{color:var(--color-text-primary);cursor:pointer;background:#ffffff0a;border:1px solid #ffffff1a;border-radius:99rem;align-items:center;gap:.5rem;padding:.9rem 2.2rem;font-size:1rem;font-weight:600;display:flex;transition:all .3s}
+.cta-sub:hover{color:var(--color-primary);background:#00cae00f;border-color:#00cae04d}
+
+/* ===== STATS ===== */
+.hero-nums{justify-content:center;align-items:center;gap:2rem;display:flex}
+.num-block{text-align:center}
+.num-val{background:linear-gradient(#fff 30%,#00cae099);-webkit-text-fill-color:transparent;-webkit-background-clip:text;background-clip:text;font-size:1.8rem;font-weight:900;line-height:1}
+.num-plus{font-weight:600}
+.num-label{color:var(--color-text-tertiary);letter-spacing:.04em;margin-top:.35rem;font-size:.75rem}
+.num-sep{background:linear-gradient(#0000,#00cae033,#0000);width:1px;height:2rem}
+
+/* ===== SECTION COMMON ===== */
+.sec{padding:5rem 0;position:relative;z-index:1}
+.sec-inner{max-width:76rem;margin:0 auto;padding:0 2rem}
+@media(max-width:40rem){.sec-inner{padding:0 1.5rem}}
+.sec-head{text-align:center;margin-bottom:4rem}
+.sec-chip{color:var(--color-primary);letter-spacing:.12em;text-transform:uppercase;background:#00cae00f;border:1px solid #00cae01f;border-radius:99rem;margin-bottom:1.2rem;padding:.3rem 1rem;font-size:.75rem;font-weight:700;display:inline-block}
+.sec-h2{letter-spacing:-.02em;margin-bottom:1rem;font-size:clamp(1.5rem,2.5rem,2.5rem);font-weight:900;line-height:1.2;color:var(--text-heading)}
+.sec-p{color:var(--color-text-secondary);max-width:34rem;margin:0 auto;font-size:1rem;line-height:1.65}
+
+/* ===== FEATURED MODEL HORIZONTAL SCROLL ===== */
+.model-scroll{max-width:100%;display:flex;gap:1rem;overflow-x:auto;padding:4px 0 1rem;scrollbar-width:none;-ms-overflow-style:none}
+.model-scroll::-webkit-scrollbar{display:none}
+.scroll-card{min-width:13rem;padding:1.2rem 1.4rem;border-radius:.85rem;background:#ffffff04;border:1px solid #ffffff0a;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);display:flex;align-items:center;gap:.8rem;transition:all .35s;flex-shrink:0;cursor:pointer}
+.scroll-card:hover{background:#00cae008;border-color:#00cae02e;transform:translateY(-.24rem);box-shadow:0 .95rem 2.14rem #00000040}
+.scroll-card-icon{width:2.8rem;height:2.8rem;min-width:2.8rem;border-radius:.7rem;display:flex;align-items:center;justify-content:center;padding:.5rem;background:#1a1a22;border:1px solid #ffffff1a}
+.scroll-card-icon img{width:100%;height:100%;object-fit:contain}
+.scroll-card-info{min-width:0}
+.scroll-card-name{font-size:.9rem;font-weight:700;color:var(--color-text-primary);white-space:nowrap}
+.scroll-card-sub{font-size:.72rem;color:var(--color-text-tertiary);margin-top:.15rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:9rem}
+
+/* ===== AI AGENTS (responsive grid) ===== */
+.cap-grid{grid-template-columns:1fr;gap:1rem;display:grid;max-width:76rem;margin:0 auto}
+.cap-card{cursor:pointer;background:#ffffff05;border:1px solid #ffffff0d;border-radius:1rem;padding:2rem 1.5rem;transition:all .35s;position:relative;overflow:hidden}
+.cap-card::before{content:"";opacity:0;pointer-events:none;background:radial-gradient(circle at 50% 0,#00cae00f,#0000 70%);position:absolute;inset:0;transition:opacity .35s}
+.cap-card:hover{border-color:#00cae033;transform:translateY(-.36rem);box-shadow:var(--card-shadow)}
+.cap-card:hover::before{opacity:1}
+.cap-num{color:#00cae00f;font-size:2.5rem;font-weight:900;line-height:1;position:absolute;top:1.2rem;right:1.2rem;pointer-events:none}
+.cap-icon{background:#00cae014;border:1px solid #00cae01f;border-radius:.7rem;width:2.8rem;height:2.8rem;margin-bottom:1.2rem;display:flex;justify-content:center;align-items:center;transition:all .35s}
+.cap-card:hover .cap-icon{background:#00cae026;box-shadow:0 0 .95rem #00cae033}
+.cap-icon i{color:var(--color-primary);font-size:1.15rem}
+.cap-title{margin-bottom:.6rem;font-size:1.1rem;font-weight:700;color:var(--text-heading)}
+.cap-desc{color:var(--color-text-secondary);margin-bottom:1.5rem;font-size:.85rem;line-height:1.6}
+.cap-go{color:var(--color-primary);align-items:center;gap:.4rem;font-size:.82rem;font-weight:600;display:flex;transition:gap .2s}
+.cap-card:hover .cap-go{gap:.65rem}
+.cap-go i{font-size:.7rem;transition:transform .2s}
+.cap-card:hover .cap-go i{transform:translate(.18rem)}
+@media(min-width:48rem){.cap-grid{grid-template-columns:repeat(2,1fr);display:grid}}
+@media(min-width:72rem){.cap-grid{grid-template-columns:repeat(4,1fr)}}
+
+/* ===== PLATFORM (responsive grid) ===== */
+.feat-grid{grid-template-columns:1fr;gap:1rem;display:grid;max-width:76rem;margin:0 auto}
+.feat{cursor:pointer;background:#ffffff04;border:1px solid #ffffff0a;border-radius:.85rem;padding:1.8rem 1.4rem 1.5rem;transition:all .3s;position:relative;overflow:hidden}
+.feat:hover{background:#00cae008;border-color:#00cae02e;transform:translateY(-.24rem);box-shadow:0 .95rem 2.14rem #00000040}
+.feat-top{justify-content:space-between;align-items:center;margin-bottom:1.2rem;display:flex}
+.feat-icon{background:#00cae012;border:1px solid #00cae01a;border-radius:.6rem;width:2.6rem;height:2.6rem;display:flex;justify-content:center;align-items:center}
+.feat-icon i{color:var(--color-primary);font-size:1.1rem}
+.feat-arrow{opacity:0;border:1px solid #ffffff0f;border-radius:50%;width:1.6rem;height:1.6rem;display:flex;justify-content:center;align-items:center;transform:translate(-.36rem);transition:all .25s}
+.feat:hover .feat-arrow{opacity:1;transform:translate(0)}
+.feat-arrow i{color:var(--color-primary);font-size:.55rem}
+.feat h3{font-size:1.05rem;font-weight:700;color:var(--text-heading);margin-bottom:.5rem}
+.feat p{color:var(--color-text-secondary);font-size:.85rem;line-height:1.6}
+.feat-bar{background:linear-gradient(90deg,var(--color-primary),transparent);border-radius:.06rem;width:0;height:.12rem;margin-top:1.2rem;transition:width .4s}
+.feat:hover .feat-bar{width:60%}
+@media(min-width:40rem){.feat-grid{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:64rem){.feat-grid{grid-template-columns:repeat(4,1fr)}}
+
+/* ===== INSPIRATION GALLERY (masonry-like) ===== */
+.masonry-wrap{max-width:90rem;margin:0 auto;padding:0 1.5rem}
+.masonry{gap:.95rem;display:flex}
+.masonry-col{flex-direction:column;flex:1;gap:.95rem;display:flex}
+.item-card{cursor:pointer;background:#1e1f25cc;border-radius:.71rem;flex-direction:column;display:flex;overflow:hidden;transition:transform .3s,box-shadow .3s}
+.item-card:hover{transform:translateY(-.36rem);box-shadow:0 1.19rem 2.38rem #00000080,0 0 0 1px #00cae033}
+.item-cover{width:100%;line-height:0;position:relative;overflow:hidden}
+.item-cover img{width:100%;height:auto;display:block;transition:transform .4s}
+.item-card:hover .item-cover img{transform:scale(1.03)}
+.hover-overlay{opacity:0;background:linear-gradient(#0000 0% 40%,#000000b3 100%);justify-content:center;align-items:flex-end;padding-bottom:.71rem;transition:opacity .3s;display:flex;position:absolute;inset:0}
+.item-card:hover .hover-overlay{opacity:1}
+.overlay-stats{gap:.95rem;display:flex}
+.stat{color:#ffffffe6;align-items:center;gap:.24rem;font-size:.8rem;font-weight:500;display:flex}
+.item-body{padding:.6rem .71rem}
+.item-title{color:var(--color-text-primary);font-size:.82rem;font-weight:600;margin-bottom:.5rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.item-tags{display:flex;flex-wrap:wrap;gap:.24rem}
+.tag{color:#00cae0e6;white-space:nowrap;background:#00cae01f;border-radius:.24rem;padding:.18rem .48rem;font-size:.7rem;font-weight:500;transition:all .2s}
+.item-card:hover .tag{color:#00cae0;background:#00cae033}
+.load-btn-wrap{text-align:center;margin-top:2rem}
+.load-btn{color:var(--color-primary);cursor:pointer;background:#00cae00a;border:1px solid #00cae033;border-radius:99rem;align-items:center;gap:.45rem;padding:.65rem 2rem;font-size:.88rem;font-weight:600;display:inline-flex;transition:all .3s}
+.load-btn:hover{background:#00cae01a;border-color:#00cae059;box-shadow:0 0 1.07rem #00cae01f}
+
+/* ===== CTA ===== */
+.cta{margin:4rem 0 0;padding:6rem 2rem;position:relative;overflow:hidden}
+.cta-bg{background:linear-gradient(#0000,#00cae00a 30%,#00cae014 60%,#00cae00a);position:absolute;inset:0}
+.cta-grid{background-image:linear-gradient(#00cae00a 1px,#0000 1px),linear-gradient(90deg,#00cae00a 1px,#0000 1px);background-size:2.86rem 2.86rem;position:absolute;inset:0;-webkit-mask-image:radial-gradient(60% 80%,#000 20%,#0000 100%);mask-image:radial-gradient(60% 80%,#000 20%,#0000 100%)}
+.cta-glow{filter:blur(5.95rem);border-radius:50%;pointer-events:none;position:absolute}
+.cta-g1{background:radial-gradient(circle,#00cae026,#0000 70%);width:29.76rem;height:29.76rem;top:-8.93rem;right:10%}
+.cta-g2{background:radial-gradient(circle,#7850ff1a,#0000 70%);width:23.81rem;height:23.81rem;bottom:-7.14rem;left:15%}
+.cta-content{position:relative;z-index:2;text-align:center}
+.cta-title{letter-spacing:-.02em;font-size:clamp(1.5rem,2.5rem,2.5rem);font-weight:900;color:var(--text-heading);margin-bottom:.8rem}
+.grad{background:linear-gradient(135deg,var(--color-primary),#00e5a0,#7850ff);-webkit-text-fill-color:transparent;background-size:200% 200%;-webkit-background-clip:text;background-clip:text;animation:6s ease-in-out infinite gShift}
+@keyframes gShift{0%,to{background-position:0%}50%{background-position:100%}}
+.cta-desc{color:var(--color-text-secondary);font-size:1rem;margin-bottom:2rem}
+.cta-btns{justify-content:center;gap:.75rem;display:flex;flex-wrap:wrap}
+
+/* ===== FOOTER ===== */
+.ft{border-top:1px solid #ffffff0a;padding:1.5rem 2rem;position:relative;z-index:1}
+.ft-inner{color:var(--color-text-tertiary);flex-wrap:wrap;justify-content:center;align-items:center;gap:.5rem;font-size:.8rem;display:flex}
+.ft-sep{background:#ffffff0f;width:1px;height:.8rem}
+.ft-link{color:var(--color-primary);font-weight:500;text-decoration:none;transition:opacity .2s}
+.ft-link:hover{opacity:.8;text-decoration:underline}
+.ft-pay{display:flex;align-items:center;justify-content:center;gap:.7rem;margin-top:.8rem}
+.pay-icon{width:2.5rem;height:1.6rem;border-radius:.25rem;background:#ffffff08;border:1px solid #ffffff0d;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.pay-icon img{width:100%;height:100%;object-fit:contain}
+
+/* ===== FAB ===== */
+.kefu-fab{background:linear-gradient(135deg,var(--color-primary),#0096c8);color:#fff;cursor:pointer;z-index:9999;border:none;border-radius:50%;justify-content:center;align-items:center;width:3.25rem;height:3.25rem;transition:all .3s;animation:2.5s ease-in-out infinite fabPulse;display:flex;position:fixed;bottom:2rem;right:2rem;box-shadow:0 0 2rem #00cae066}
+.kefu-fab:hover{transform:translateY(-.18rem) scale(1.1);box-shadow:0 0 3rem #00cae099}
+.kefu-fab i{font-size:.95rem}
+@keyframes fabPulse{0%,to{box-shadow:0 0 2rem #00cae066}50%{box-shadow:0 0 2rem #00cae066,0 0 0 .5rem #00cae000}}
+@media(max-width:48rem){.kefu-fab{width:3rem;height:3rem;bottom:1.25rem;right:1.25rem}}
+
+/* ===== MODALS ===== */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);z-index:10000;display:none;justify-content:center;align-items:center;opacity:0;transition:opacity .3s}
+.modal-overlay.active{display:flex;opacity:1}
+.modal-box{background:var(--bg-card);border:1px solid var(--card-bd);border-radius:1rem;padding:2.5rem;max-width:420px;width:90%;text-align:center;position:relative;transform:scale(.9);transition:transform .3s;box-shadow:var(--shadow-lg)}
+.modal-overlay.active .modal-box{transform:scale(1)}
+.modal-close{position:absolute;top:1rem;right:1rem;width:2rem;height:2rem;border-radius:50%;background:var(--card-bg);border:1px solid var(--card-bd);color:var(--color-text-secondary);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;font-size:.8rem}
+.modal-close:hover{color:var(--color-primary);border-color:var(--card-bd-h)}
+.modal-icon{width:3.5rem;height:3.5rem;border-radius:50%;background:#00cae012;border:1px solid #00cae01f;display:flex;align-items:center;justify-content:center;margin:0 auto 1.2rem;font-size:1.4rem;color:var(--color-primary)}
+.modal-title{font-size:1.2rem;font-weight:700;color:var(--text-heading);margin-bottom:.5rem}
+.modal-desc{font-size:.85rem;color:var(--color-text-secondary);line-height:1.6;margin-bottom:1.5rem}
+.modal-btn{background:linear-gradient(135deg,var(--color-primary),#00a0c8);color:#fff;border:none;border-radius:99rem;padding:.7rem 2rem;font-size:.9rem;font-weight:600;cursor:pointer;box-shadow:0 0 1.2rem #00cae040;transition:all .3s}
+.modal-btn:hover{transform:translateY(-.1rem);box-shadow:0 0 2rem #00cae060}
+.modal-actions{display:flex;gap:.5rem;margin-top:1rem;justify-content:center}
+.modal-btn-ghost{background:var(--card-bg);color:var(--color-text-primary);border:1px solid var(--card-bd);border-radius:99rem;padding:.6rem 1.5rem;font-size:.85rem;font-weight:500;cursor:pointer;transition:all .2s}
+.modal-btn-ghost:hover{border-color:var(--card-bd-h);color:var(--color-primary)}
+/* Toast notification */
+.toast{position:fixed;top:5rem;left:50%;transform:translateX(-50%) translateY(-20px);background:var(--bg-card);border:1px solid var(--card-bd);border-radius:.6rem;padding:.7rem 1.5rem;font-size:.85rem;color:var(--color-text-primary);z-index:10001;opacity:0;transition:all .3s;box-shadow:var(--shadow-md);pointer-events:none;white-space:nowrap}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:1024px){
+  .masonry{flex-direction:column}
+}
+@media(max-width:768px){
+  .hero-nums{flex-direction:column;gap:1.2rem}
+  .num-sep{width:4rem;height:1px;background:linear-gradient(90deg,#0000,#00cae033,#0000)}
+  .hero-cta{flex-direction:column;width:100%;padding:0 1.5rem}
+  .cta-main,.cta-sub{width:100%;justify-content:center}
+  .masonry{flex-direction:column}
+}
+@media(max-width:480px){
+  .hero-h1{font-size:2.5rem!important}
+  .cap-grid{grid-template-columns:1fr!important}
+  .feat-grid{grid-template-columns:1fr!important}
+}
+</style>
+</head>
+<body>
+
+<!-- ===== GLOBAL BACKGROUND ===== -->
+<div class="global-bg">
+  <div class="gradient-flow"></div>
+  <div class="gradient-orb orb-1"></div>
+  <div class="gradient-orb orb-2"></div>
+  <div class="gradient-orb orb-3"></div>
+  <div class="grid-lines"></div>
+  <div class="particles" id="particles"></div>
+  <svg class="conn-svg" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" viewBox="0 0 1000 1000">
+    <path class="conn-line cl-1" d="M100 200 Q300 400 500 300 T900 600"/>
+    <path class="conn-line cl-2" d="M200 800 Q400 500 700 700 T950 200"/>
+    <path class="conn-line cl-3" d="M50 500 Q350 100 600 450 T850 850"/>
+  </svg>
+</div>
+
+<!-- ===== NAV ===== -->
+<nav class="nav" id="mainNav">
+  <div class="nav-inner">
+    <div class="nav-logo">
+      <div class="nav-logo-img"><span>CHQ</span></div>
+      <span class="nav-logo-name" data-i18n="logo">陳宏强AI</span>
+    </div>
+    <div class="nav-c">
+      <button class="nav-btn nav-btn-ghost" onclick="openModal('kefu')"><i class="fas fa-headset"></i><span class="nav-btn-text" data-i18n="ns">客服</span></button>
+      <button class="nav-btn nav-btn-ghost" onclick="openModal('login')"><i class="fas fa-code"></i><span class="nav-btn-text" data-i18n="nd">开发者</span></button>
+    </div>
+    <div class="nav-r">
+      <button class="nav-btn nav-btn-solid" onclick="openModal('login')" data-i18n="nstart"><span class="nav-btn-text">开始使用</span> <i class="fas fa-arrow-right"></i></button>
+      <button class="lang-btn" onclick="switchLang()"><i class="fas fa-globe" style="font-size:.7rem"></i><span id="langLabel">EN</span></button>
+      <button class="theme-btn" onclick="toggleTheme()" id="themeToggle"><i class="fas fa-moon" id="themeIcon"></i></button>
+    </div>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <!-- CSS Orbit -->
+  <div class="orbit-container" id="orbitContainer">
+    <div class="orbit-spin" id="orbitSpin"></div>
+  </div>
+  <!-- Spotlight tooltip -->
+  <div class="spotlight" id="spotlight">
+    <div class="spotlight-card">
+      <img class="spotlight-img" id="spotlightImg" src="" alt="">
+      <div class="spotlight-name" id="spotlightName"></div>
+      <div class="spotlight-desc" id="spotlightDesc"></div>
+    </div>
+  </div>
+  <div class="hero-inner">
+    <div class="hero-center">
+      <div class="hero-chip"><span class="chip-pulse"></span><span data-i18n="hb">新一代 AI 平台</span></div>
+      <h1 class="hero-h1">
+        <span class="line-1" data-i18n="ht1">让 AI 为你</span>
+        <span class="line-2"><span class="typing-text" id="typingText"></span><span class="cursor-blink">|</span></span>
+      </h1>
+      <p class="hero-sub" data-i18n="hsub">聚合 500+ 全球顶尖大模型，智能对话 / 图像创作 / 视频生成 / AI 智能体，一个平台，释放无限可能</p>
+      <div class="hero-cta">
+        <button class="cta-main" onclick="openModal('login')" data-i18n="bs"><span>开始使用</span> <i class="fas fa-arrow-right"></i></button>
+        <button class="cta-sub" onclick="openModal('channel')" data-i18n="bb"><i class="fas fa-envelope"></i><span>商务合作</span></button>
+      </div>
+      <div class="hero-nums">
+        <div class="num-block"><div class="num-val"><span class="counter" data-target="500">0</span><span class="num-plus">+</span></div><div class="num-label" data-i18n="sm">AI 模型</div></div>
+        <div class="num-sep"></div>
+        <div class="num-block"><div class="num-val"><span class="counter" data-target="10000" data-suffix="K">0</span><span class="num-plus">+</span></div><div class="num-label" data-i18n="sc">创作者</div></div>
+        <div class="num-sep"></div>
+        <div class="num-block"><div class="num-val" style="font-size:2.2rem">∞</div><div class="num-label" data-i18n="sx">创造力</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FEATURED MODELS ===== -->
+<section class="sec" style="padding-bottom:3rem">
+  <div class="sec-inner">
+    <div class="sec-head">
+      <div class="sec-chip">FEATURED MODELS</div>
+      <h2 class="sec-h2" data-i18n="mt">热门模型</h2>
+    </div>
+    <div class="model-scroll" id="modelScroll"></div>
+  </div>
+</section>
+
+<!-- ===== AI AGENTS ===== -->
+<section class="sec">
+  <div class="sec-inner">
+    <div class="sec-head">
+      <div class="sec-chip">AI AGENTS</div>
+      <h2 class="sec-h2" data-i18n="at">不只是工具，是你的创作搭档</h2>
+      <p class="sec-p" data-i18n="ad">从文案到视频、从灵感到成品 —— AI 智能体帮你全流程搞定，效率提升 10 倍。</p>
+    </div>
+    <div class="cap-grid">
+      <div class="cap-card">
+        <span class="cap-num">01</span>
+        <div class="cap-icon"><i class="fas fa-clapperboard"></i></div>
+        <h3 class="cap-title" data-i18n="a1t">一键生成漫剧</h3>
+        <p class="cap-desc" data-i18n="a1d">输入文案或参考图，AI 自动拆分镜头、生成角色、配音、合成视频，全流程一键完成。</p>
+        <a href="#" class="cap-go" onclick="openModal('login');return false" data-i18n="atry">立即体验 <i class="fas fa-arrow-right"></i></a>
+    </div>
+    <div class="cap-card">
+      <span class="cap-num">02</span>
+      <div class="cap-icon"><i class="fas fa-wand-magic-sparkles"></i></div>
+      <h3 class="cap-title" data-i18n="a2t">智能长视频创作</h3>
+      <p class="cap-desc" data-i18n="a2d">多张参考图 + 文字描述，精准控制画面内容与时长，生成连贯的专业级长视频。</p>
+      <a href="#" class="cap-go" onclick="openModal('login');return false" data-i18n="atry">立即体验 <i class="fas fa-arrow-right"></i></a>
+    </div>
+    <div class="cap-card">
+      <span class="cap-num">03</span>
+      <div class="cap-icon"><i class="fas fa-palette"></i></div>
+      <h3 class="cap-title" data-i18n="a3t">风格一键切换</h3>
+      <p class="cap-desc" data-i18n="a3d">赛博朋克、水墨国风、3D 动画、写实电影……海量风格随心切换，创作不设限。</p>
+      <a href="#" class="cap-go" onclick="openModal('login');return false" data-i18n="atry">立即体验 <i class="fas fa-arrow-right"></i></a>
+    </div>
+    <div class="cap-card">
+      <span class="cap-num">04</span>
+      <div class="cap-icon"><i class="fas fa-microphone-lines"></i></div>
+      <h3 class="cap-title" data-i18n="a4t">画面配音自动匹配</h3>
+      <p class="cap-desc" data-i18n="a4d">智能语音合成 + 画面节奏匹配，解说版、剧情版自由选择，让内容更有灵魂。</p>
+      <a href="#" class="cap-go" onclick="openModal('login');return false" data-i18n="atry">立即体验 <i class="fas fa-arrow-right"></i></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PLATFORM ===== -->
+<section class="sec">
+  <div class="sec-inner">
+    <div class="sec-head">
+      <div class="sec-chip">PLATFORM</div>
+      <h2 class="sec-h2" data-i18n="pt">四大核心能力，一个平台</h2>
+    </div>
+    <div class="feat-grid">
+      <div class="feat">
+        <div class="feat-top"><div class="feat-icon"><i class="fas fa-message"></i></div><div class="feat-arrow"><i class="fas fa-arrow-right"></i></div></div>
+        <h3 data-i18n="p1t">智能对话</h3>
+        <p data-i18n="p1d">GPT-4o / Claude / Gemini / DeepSeek，多模型自由切换，精准回答每一个问题。</p>
+        <div class="feat-bar"></div>
+      </div>
+      <div class="feat">
+        <div class="feat-top"><div class="feat-icon"><i class="fas fa-image"></i></div><div class="feat-arrow"><i class="fas fa-arrow-right"></i></div></div>
+        <h3 data-i18n="p2t">图像创作</h3>
+        <p data-i18n="p2d">Midjourney / FLUX / 即梦 / DALL·E，输入文字即刻出图，写实、插画、3D 任选。</p>
+        <div class="feat-bar"></div>
+      </div>
+      <div class="feat">
+        <div class="feat-top"><div class="feat-icon"><i class="fas fa-film"></i></div><div class="feat-arrow"><i class="fas fa-arrow-right"></i></div></div>
+        <h3 data-i18n="p3t">视频生成</h3>
+        <p data-i18n="p3d">Sora 2 / 可灵 / Luma / Veo / Runway，文字或图片一键生成电影级视频。</p>
+        <div class="feat-bar"></div>
+      </div>
+      <div class="feat">
+        <div class="feat-top"><div class="feat-icon"><i class="fas fa-volume-high"></i></div><div class="feat-arrow"><i class="fas fa-arrow-right"></i></div></div>
+        <h3 data-i18n="p4t">语音合成</h3>
+        <p data-i18n="p4d">多语言、多音色智能配音，从旁白到对白，让你的内容拥有专业级声音。</p>
+        <div class="feat-bar"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== INSPIRATION GALLERY ===== -->
+<section class="sec">
+  <div class="sec-head">
+    <div class="sec-chip">INSPIRATION</div>
+    <h2 class="sec-h2" data-i18n="igt">灵感广场</h2>
+    <p class="sec-p" data-i18n="igd">看看大家都在用 AI 创作什么</p>
+  </div>
+  <div class="masonry-wrap">
+    <div class="masonry" id="masonryGrid"></div>
+  </div>
+  <div class="load-btn-wrap"><button class="load-btn" data-i18n="igm"><i class="fas fa-chevron-down" style="font-size:.7rem"></i> <span>加载更多灵感</span></button></div>
+</section>
+
+<!-- ===== CTA ===== -->
+<div class="cta">
+  <div class="cta-bg"></div>
+  <div class="cta-grid"></div>
+  <div class="cta-glow cta-g1"></div>
+  <div class="cta-glow cta-g2"></div>
+  <div class="cta-content">
+    <h2 class="cta-title"><span data-i18n="ct1">现在就开始 </span><span class="grad" data-i18n="ct2">你的 AI 创作之旅</span></h2>
+    <p class="cta-desc" data-i18n="cd">30+ 顶尖模型 / AI 智能体 / 灵感广场 —— 一站直达</p>
+    <div class="cta-btns">
+      <button class="cta-main" onclick="openModal('login')" data-i18n="cr"><span>立即注册</span> <i class="fas fa-arrow-right"></i></button>
+      <button class="cta-sub" onclick="openModal('kefu')" data-i18n="cc"><i class="fas fa-headset"></i><span>联系客服</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== FOOTER ===== -->
+<footer class="ft">
+  <div class="ft-inner">
+    <span>&copy;2025 Richard Chen. All Rights Reserved.</span>
+    <span class="ft-sep"></span>
+    <span data-i18n="fd">陳宏强AI - 企业级 AI 接口服务平台</span>
+    <span class="ft-sep"></span>
+    <a href="#" class="ft-link" onclick="openModal('kefu');return false" data-i18n="fl1">联系客服</a>
+    <span class="ft-sep"></span>
+    <a href="#" class="ft-link" onclick="openModal('kefu');return false" data-i18n="fl2">举报与反馈</a>
+    <span class="ft-sep"></span>
+    <a href="#" class="ft-link" onclick="showToast(lang==='zh'?'隐私政策页面即将上线':'Privacy policy coming soon');return false" data-i18n="fl3">隐私政策</a>
+    <span class="ft-sep"></span>
+    <a href="#" class="ft-link" onclick="showToast(lang==='zh'?'用户协议页面即将上线':'Terms of service coming soon');return false" data-i18n="fl4">用户协议</a>
+  </div>
+  <div class="ft-pay">
+    <div class="pay-icon"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 26'%3E%3Crect width='40' height='26' rx='4' fill='%2301A1F71'/%3E%3Ctext x='20' y='17' font-family='Arial,sans-serif' font-size='11' font-weight='bold' fill='white' text-anchor='middle'%3EVISA%3C/text%3E%3C/svg%3E" alt="Visa"></div>
+    <div class="pay-icon"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 26'%3E%3Crect width='40' height='26' rx='4' fill='%23250000'/%3E%3Ccircle cx='14' cy='13' r='8' fill='%23EB001B' opacity='0.8'/%3E%3Ccircle cx='22' cy='13' r='8' fill='%23F79E1B' opacity='0.8'/%3E%3Ctext x='20' y='16' font-family='Arial' font-size='7' font-weight='bold' fill='white' text-anchor='middle'%3EMC%3C/text%3E%3C/svg%3E" alt="MC"></div>
+    <div class="pay-icon"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 26'%3E%3Crect width='40' height='26' rx='4' fill='%231678FF'/%3E%3Ctext x='20' y='16' font-family='Arial' font-size='9' font-weight='bold' fill='white' text-anchor='middle'%3E支付宝%3C/text%3E%3C/svg%3E" alt="Alipay"></div>
+    <div class="pay-icon"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 26'%3E%3Crect width='40' height='26' rx='4' fill='%2307C160'/%3E%3Ctext x='20' y='16' font-family='Arial' font-size='9' font-weight='bold' fill='white' text-anchor='middle'%3E微信%3C/text%3E%3C/svg%3E" alt="WeChat"></div>
+  </div>
+</footer>
+
+<!-- ===== FAB ===== -->
+<button class="kefu-fab" aria-label="联系客服" onclick="openModal('kefu')"><i class="fas fa-headset"></i></button>
+
+<!-- ===== MODALS ===== -->
+<!-- Login Modal -->
+<div class="modal-overlay" id="loginModal" onclick="if(event.target===this)closeModal('login')">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('login')"><i class="fas fa-times"></i></button>
+    <div class="modal-icon"><i class="fas fa-user-plus"></i></div>
+    <h3 class="modal-title" data-i18n="ml_title">登录 / 注册</h3>
+    <p class="modal-desc" data-i18n="ml_desc">登录后即可使用 500+ AI 大模型，开启您的 AI 创作之旅</p>
+    <div class="modal-actions">
+      <button class="modal-btn" style="background:#07c160"><i class="fab fa-weixin" style="margin-right:6px"></i> <span data-i18n="ml_wx">微信登录</span></button>
+      <button class="modal-btn" style="background:#333"><i class="fab fa-github" style="margin-right:6px"></i> <span data-i18n="ml_gh">GitHub</span></button>
+      <button class="modal-btn" style="background:#ea4335"><i class="fab fa-google" style="margin-right:6px"></i> <span data-i18n="ml_gg">Google</span></button>
+    </div>
+    <div style="margin-top:1rem">
+      <button class="modal-btn-ghost" data-i18n="ml_email"><i class="fas fa-envelope" style="margin-right:4px"></i> 邮箱登录</button>
+    </div>
+  </div>
+</div>
+
+<!-- Kefu Modal -->
+<div class="modal-overlay" id="kefuModal" onclick="if(event.target===this)closeModal('kefu')">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('kefu')"><i class="fas fa-times"></i></button>
+    <div class="modal-icon"><i class="fas fa-headset"></i></div>
+    <h3 class="modal-title" data-i18n="mk_title">联系客服</h3>
+    <p class="modal-desc" data-i18n="mk_desc">如有任何问题，请通过以下方式联系我们的客服团队</p>
+    <div class="modal-actions" style="flex-direction:column;align-items:center">
+      <button class="modal-btn" style="width:80%;background:#07c160"><i class="fab fa-weixin" style="margin-right:6px"></i> <span data-i18n="mk_wx">添加微信客服</span></button>
+      <button class="modal-btn-ghost" style="width:80%" onclick="showToast(lang==='zh'?'客服邮箱已复制到剪贴板':'Support email copied');closeModal('kefu')"><i class="fas fa-envelope" style="margin-right:4px"></i> support@richardchen.ai</button>
+    </div>
+  </div>
+</div>
+
+<!-- Channel Modal -->
+<div class="modal-overlay" id="channelModal" onclick="if(event.target===this)closeModal('channel')">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('channel')"><i class="fas fa-times"></i></button>
+    <div class="modal-icon"><i class="fas fa-handshake"></i></div>
+    <h3 class="modal-title" data-i18n="mc_title">商务合作</h3>
+    <p class="modal-desc" data-i18n="mc_desc">成为渠道合作伙伴，享受专属折扣和分成方案</p>
+    <div class="modal-actions" style="flex-direction:column;align-items:center">
+      <button class="modal-btn" style="width:80%" onclick="showToast(lang==='zh'?'合作邮箱已复制':'Partner email copied');closeModal('channel')"><i class="fas fa-envelope" style="margin-right:6px"></i> business@richardchen.ai</button>
+      <button class="modal-btn-ghost" style="width:80%" onclick="showToast(lang==='zh'?'微信已复制，请添加':'WeChat copied');closeModal('channel')"><i class="fab fa-weixin" style="margin-right:4px"></i> RichardChen_AI</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toastEl"></div>
+
+<script>
+// ============ I18N ============
+const T={
+zh:{logo:'陳宏强AI',ns:'客服',nd:'开发者',nstart:'<span class="nav-btn-text">开始使用</span> <i class="fas fa-arrow-right"></i>',hb:'新一代 AI 平台',ht1:'让 AI 为你',hsub:'聚合 500+ 全球顶尖大模型，智能对话 / 图像创作 / 视频生成 / AI 智能体，一个平台，释放无限可能',bs:'<span>开始使用</span> <i class="fas fa-arrow-right"></i>',bb:'<i class="fas fa-envelope"></i><span>商务合作</span>',sm:'AI 模型',sc:'创作者',sx:'创造力',mt:'热门模型',at:'不只是工具，是你的创作搭档',ad:'从文案到视频、从灵感到成品 —— AI 智能体帮你全流程搞定，效率提升 10 倍。',a1t:'一键生成漫剧',a1d:'输入文案或参考图，AI 自动拆分镜头、生成角色、配音、合成视频，全流程一键完成。',a2t:'智能长视频创作',a2d:'多张参考图 + 文字描述，精准控制画面内容与时长，生成连贯的专业级长视频。',a3t:'风格一键切换',a3d:'赛博朋克、水墨国风、3D 动画、写实电影……海量风格随心切换，创作不设限。',a4t:'画面配音自动匹配',a4d:'智能语音合成 + 画面节奏匹配，解说版、剧情版自由选择，让内容更有灵魂。',atry:'立即体验 <i class="fas fa-arrow-right"></i>',pt:'四大核心能力，一个平台',p1t:'智能对话',p1d:'GPT-4o / Claude / Gemini / DeepSeek，多模型自由切换，精准回答每一个问题。',p2t:'图像创作',p2d:'Midjourney / FLUX / 即梦 / DALL·E，输入文字即刻出图，写实、插画、3D 任选。',p3t:'视频生成',p3d:'Sora 2 / 可灵 / Luma / Veo / Runway，文字或图片一键生成电影级视频。',p4t:'语音合成',p4d:'多语言、多音色智能配音，从旁白到对白，让你的内容拥有专业级声音。',igt:'灵感广场',igd:'看看大家都在用 AI 创作什么',igm:'<i class="fas fa-chevron-down" style="font-size:.7rem"></i> <span>加载更多灵感</span>',ct1:'现在就开始 ',ct2:'你的 AI 创作之旅',cd:'30+ 顶尖模型 / AI 智能体 / 灵感广场 —— 一站直达',cr:'<span>立即注册</span> <i class="fas fa-arrow-right"></i>',cc:'<i class="fas fa-headset"></i><span>联系客服</span>',fd:'陳宏强AI - 企业级 AI 接口服务平台',fl1:'联系客服',fl2:'举报与反馈',fl3:'隐私政策',fl4:'用户协议',ml_title:'登录 / 注册',ml_desc:'登录后即可使用 500+ AI 大模型，开启您的 AI 创作之旅',ml_wx:'微信登录',ml_gh:'GitHub',ml_gg:'Google',ml_email:'<i class="fas fa-envelope" style="margin-right:4px"></i> 邮箱登录',mk_title:'联系客服',mk_desc:'如有任何问题，请通过以下方式联系我们的客服团队',mk_wx:'添加微信客服',mc_title:'商务合作',mc_desc:'成为渠道合作伙伴，享受专属折扣和分成方案'},
+en:{logo:'Richard Chen AI',ns:'Support',nd:'Developers',nstart:'<span class="nav-btn-text">Get Started</span> <i class="fas fa-arrow-right"></i>',hb:'Next-Gen AI Platform',ht1:'Let AI Do It for You',hsub:'Aggregating 500+ global top large models: intelligent dialogue / image creation / video generation / AI agents — one platform, unlimited possibilities.',bs:'<span>Get Started</span> <i class="fas fa-arrow-right"></i>',bb:'<i class="fas fa-envelope"></i><span>Business Cooperation</span>',sm:'AI Models',sc:'Creators',sx:'Creativity',mt:'Popular Models',at:'Not Just a Tool — Your Creative Partner',ad:'From copywriting to video, from inspiration to finished product — AI agents handle the entire workflow, boosting efficiency 10x.',a1t:'One-Click Comic Generation',a1d:'Input text or reference images, and AI auto-splits scenes, generates characters, adds voiceover, and composites video — all in one click.',a2t:'Smart Long Video Creation',a2d:'Multiple reference images + text descriptions for precise control over content and duration, generating coherent professional-grade long videos.',a3t:'One-Click Style Switching',a3d:'Cyberpunk, ink painting, 3D animation, realistic cinema… switch freely between countless styles with no creative limits.',a4t:'Auto Voiceover Matching',a4d:'Smart speech synthesis + rhythm matching — choose commentary or storytelling mode to give your content a soul.',atry:'Try Now <i class="fas fa-arrow-right"></i>',pt:'Four Core Capabilities, One Platform',p1t:'Smart Dialogue',p1d:'GPT-4o / Claude / Gemini / DeepSeek — freely switch between models for precise answers to any question.',p2t:'Image Creation',p2d:'Midjourney / FLUX / Jimeng / DALL·E — generate images instantly from text, in realistic, illustration, or 3D styles.',p3t:'Video Generation',p3d:'Sora 2 / Kling / Luma / Veo / Runway — generate cinematic videos from text or images with one click.',p4t:'Voice Synthesis',p4d:'Multi-language, multi-voice smart dubbing — from narration to dialogue, give your content professional-grade sound.',igt:'Inspiration Hub',igd:'See what everyone is creating with AI',igm:'<i class="fas fa-chevron-down" style="font-size:.7rem"></i> <span>Load More</span>',ct1:'Start Your ',ct2:'AI Creative Journey Now',cd:'30+ top models / AI agents / Inspiration hub — all in one place',cr:'<span>Register Now</span> <i class="fas fa-arrow-right"></i>',cc:'<i class="fas fa-headset"></i><span>Contact Support</span>',fd:'Richard Chen AI — Enterprise-grade AI API Service Platform',fl1:'Contact Support',fl2:'Report & Feedback',fl3:'Privacy Policy',fl4:'Terms of Service',ml_title:'Login / Register',ml_desc:'Sign in to access 500+ AI models and start your AI creative journey',ml_wx:'WeChat Login',ml_gh:'GitHub',ml_gg:'Google',ml_email:'<i class="fas fa-envelope" style="margin-right:4px"></i> Email Login',mk_title:'Contact Support',mk_desc:'Have questions? Reach our support team through the channels below',mk_wx:'Add WeChat Support',mc_title:'Business Cooperation',mc_desc:'Become a channel partner with exclusive discounts and revenue sharing'}
+};
+let lang=localStorage.getItem('lang')||'zh';
+function switchLang(){lang=lang==='zh'?'en':'zh';localStorage.setItem('lang',lang);document.getElementById('langLabel').textContent=lang==='zh'?'EN':'中文';document.documentElement.lang=lang==='zh'?'zh-CN':'en';applyI18n();initTypingEffect()}
+function applyI18n(){const m=T[lang];document.querySelectorAll('[data-i18n]').forEach(e=>{const k=e.getAttribute('data-i18n');if(m[k])e.innerHTML=m[k]})}
+
+// ============ THEME ============
+let theme=localStorage.getItem('theme')||'dark';
+function toggleTheme(){theme=theme==='dark'?'light':'dark';localStorage.setItem('theme',theme);applyTheme()}
+function applyTheme(){document.documentElement.setAttribute('data-theme',theme);document.getElementById('themeIcon').className=theme==='dark'?'fas fa-moon':'fas fa-sun'}
+
+// ============ NAV SCROLL ============
+window.addEventListener('scroll',()=>{document.getElementById('mainNav').classList.toggle('scrolled',window.scrollY>50)},{passive:true});
+
+// ============ TYPING EFFECT ============
+const typingTexts={zh:['生成图片','智能对话','创作视频','一键漫剧','作曲编曲'],en:['Generate Images','Smart Dialogue','Create Videos','One-Click Comics','Compose Music']};
+let typingIdx=0,charIdx=0,isDeleting=false,typeTimer=null;
+function initTypingEffect(){if(typeTimer)clearInterval(typeTimer);typingIdx=0;charIdx=0;isDeleting=false;typeTimer=setInterval(doTyping,80)}
+function doTyping(){const el=document.getElementById('typingText');if(!el)return;const texts=typingTexts[lang]||typingTexts.zh;const current=texts[typingIdx%texts.length];if(!isDeleting){el.textContent=current.substring(0,charIdx+1);charIdx++;if(charIdx>=current.length){isDeleting=true;clearInterval(typeTimer);typeTimer=setInterval(doTyping,2000);return}}else{el.textContent=current.substring(0,charIdx-1);charIdx--;if(charIdx<=0){isDeleting=false;typingIdx++;clearInterval(typeTimer);typeTimer=setInterval(doTyping,80)}}}
+
+// ============ ICON LOADER (CDN-first for file:// compatibility) ============
+const ICON_CONFIG_URL='icons-config.json';
+const CDN_BASE='https://cos.lingkeai.vip';
+const AGENT_CDN_BASE='https://aifc.lk666.ai/icons';
+const FALLBACK_ICON='data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28"><rect width="28" height="28" rx="4" fill="#1a1a22"/><text x="14" y="19" font-family="sans-serif" font-size="10" fill="#8c99a0" text-anchor="middle">?</text></svg>');
+let iconsConfig=null;
+
+// CDN URL mapping (CDN-first strategy for file:// protocol compatibility)
+const CDN_MAP={
+  'openai_bai.svg':CDN_BASE+'/openai_bai.svg',
+  'vidu-icon.svg':CDN_BASE+'/vidu-icon.svg',
+  'grok_bai.svg':CDN_BASE+'/Grok_bai.svg',
+  'mimo_bai.svg':CDN_BASE+'/mimo_bai.svg',
+  'openai.svg':CDN_BASE+'/openai.svg','claude.svg':CDN_BASE+'/claude.svg',
+  'gemini.svg':CDN_BASE+'/gemini.svg','deepseek.svg':CDN_BASE+'/deepseek.svg',
+  'grok.svg':CDN_BASE+'/Grok_bai.svg','kimi.svg':CDN_BASE+'/kimi.svg',
+  'glm.svg':CDN_BASE+'/glm.svg','qwen.svg':CDN_BASE+'/qwen.svg',
+  'doubao.svg':CDN_BASE+'/doubao.svg','step.svg':CDN_BASE+'/step.svg',
+  'happyhorse.svg':CDN_BASE+'/happyhorse.svg','banana.svg':CDN_BASE+'/banana.svg',
+  'minimax.svg':CDN_BASE+'/minimax.svg','vidu.svg':CDN_BASE+'/vidu-icon.svg',
+  'mimo.svg':CDN_BASE+'/mimo_bai.svg',
+  'agent_manju.svg':AGENT_CDN_BASE+'/ManJu.svg',
+  'agent_manju_s2.svg':AGENT_CDN_BASE+'/manju_s2.0.svg',
+  'agent_jieshuo.svg':AGENT_CDN_BASE+'/jieshuo.svg',
+  'agent_dianshang.svg':AGENT_CDN_BASE+'/dianshang.svg',
+  'agent_tongyong.svg':AGENT_CDN_BASE+'/tongyongyijianshengtu.svg?v=2',
+  'agent_wuxianhuabu.svg':AGENT_CDN_BASE+'/wuxianhuabu.svg',
+  'agent_zhinengduozhen.svg':AGENT_CDN_BASE+'/zhinengduozhen.svg',
+  'agent_ppt.svg':AGENT_CDN_BASE+'/ppt.svg',
+  'agent_longxia.svg':AGENT_CDN_BASE+'/longxia.svg',
+  'suno.png':CDN_BASE+'/uploads/2026.05/20/20260520230633_18b14e75304dacc0f4de.png',
+  'expired.svg':AGENT_CDN_BASE+'/expired.svg'
+};
+
+// Create robust img: Local first -> CDN fallback -> inline SVG fallback
+function createRobustImg(iconName,alt,cssClass){
+  const cdnUrl=CDN_MAP[iconName]||'';
+  const localPath='icons/'+iconName;
+  const img=document.createElement('img');
+  img.alt=alt||iconName;
+  if(cssClass)img.className=cssClass;
+  // Local first (ensures colored versions are used)
+  img.src=localPath;
+  img.onerror=function(){
+    if(cdnUrl&&img.src!==cdnUrl){
+      img.onerror=function(){img.onerror=null;img.src=FALLBACK_ICON;img.style.opacity='.3'};
+      img.src=cdnUrl;
+    }else{img.onerror=null;img.src=FALLBACK_ICON;img.style.opacity='.3'}
+  };
+  return img;
+}
+
+// Load config (async, non-blocking)
+async function loadIconsConfig(){
+  try{
+    const r=await fetch(ICON_CONFIG_URL);
+    if(r.ok){iconsConfig=await r.json();console.log('[Icons] Config loaded, version:',iconsConfig.version);return}
+  }catch(e){console.warn('[Icons] Config fetch failed, using embedded defaults')}
+  // Fallback: load embedded defaults
+  try{iconsConfig=JSON.parse(document.getElementById('iconsConfigFallback')?.textContent||'null')}catch(e){}
+}
+
+// ============ CSS ORBIT (pure CSS, matching original) ============
+// Default orbit models (embedded, overridden by config if loaded)
+const DEFAULT_ORBIT_MODELS=[
+  {name:'快乐马-文生视频',icon:'happyhorse.svg',desc:'阿里百炼视频生成'},
+  {name:'VIDU-解说漫',icon:'vidu-icon.svg',desc:'生数科技漫剧生成'},
+  {name:'Gemini 3.5 flash',icon:'gemini.svg',desc:'Google Gemini 极速版'},
+  {name:'Omni Flash 10秒',icon:'gemini.svg',desc:'Gemini多模态10秒响应'},
+  {name:'GPT-5.5 低推理',icon:'openai_bai.svg',desc:'OpenAI 轻量推理'},
+  {name:'快乐马1.1-文生视频',icon:'happyhorse.svg',desc:'阿里百炼视频创作'},
+  {name:'Vidu Q3 Drama',icon:'vidu-icon.svg',desc:'生数科技剧情视频'},
+  {name:'快乐马1.1-参考生',icon:'happyhorse.svg',desc:'参考图视频生成'},
+  {name:'grok-4-20',icon:'grok_bai.svg',desc:'xAI 旗舰推理'},
+  {name:'Kimi K2.7 Code',icon:'kimi.svg',desc:'月之暗面编程助手'},
+  {name:'Kimi K2.6',icon:'kimi.svg',desc:'月之暗面多模态'},
+  {name:'VIDU-音乐MV',icon:'vidu-icon.svg',desc:'AI音乐MV生成'},
+  {name:'mimo-v2.5-pro',icon:'mimo_bai.svg',desc:'Mimo 多模态旗舰'},
+  {name:'GPT-5.5 深度推理',icon:'openai_bai.svg',desc:'OpenAI 深度思考'},
+  {name:'GLM-5.2',icon:'glm.svg',desc:'智谱AI旗舰模型'},
+  {name:'Vidu Q3 Turbo',icon:'vidu-icon.svg',desc:'生数科技极速视频'},
+  {name:'千问 3.7 Plus',icon:'qwen.svg',desc:'阿里云旗舰模型'},
+  {name:'GPT Image 2',icon:'openai_bai.svg',desc:'OpenAI 图像生成'},
+  {name:'omni-flash',icon:'gemini.svg',desc:'Gemini 极速多模态'},
+  {name:'快乐马-首帧',icon:'happyhorse.svg',desc:'视频首帧生成'},
+  {name:'Step 3.7 Flash',icon:'step.svg',desc:'阶跃星辰极速推理'},
+  {name:'千问 3.7 Max',icon:'qwen.svg',desc:'阿里云顶级模型'},
+  {name:'deepseek-v4-pro',icon:'deepseek.svg',desc:'DeepSeek 深度推理'},
+  {name:'快乐马1.1-首帧',icon:'happyhorse.svg',desc:'首帧视频生成'},
+  {name:'快乐马-参考生',icon:'happyhorse.svg',desc:'参考图视频创作'},
+  {name:'豆包-虚拟陪伴',icon:'doubao.svg',desc:'字节AI陪伴'},
+  {name:'豆包 Seed 2.1 Pro',icon:'doubao.svg',desc:'字节多模态旗舰'},
+  {name:'grok-build-0.1',icon:'grok_bai.svg',desc:'xAI 构建助手'},
+  {name:'GPT-5.5 高推理',icon:'openai_bai.svg',desc:'OpenAI 高级推理'},
+  {name:'快乐马-视频编辑',icon:'happyhorse.svg',desc:'AI视频编辑'},
+  {name:'GPT-4o',icon:'openai_bai.svg',desc:'OpenAI 多模态'},
+  {name:'deepseek-v4-flash',icon:'deepseek.svg',desc:'DeepSeek 极速版'},
+  {name:'GPT-5.4 mini',icon:'openai_bai.svg',desc:'OpenAI 轻量版'},
+  {name:'GPT Image 2 官转',icon:'openai_bai.svg',desc:'OpenAI 官方图像'},
+  {name:'fable-5',icon:'claude.svg',desc:'Anthropic 故事'},
+  {name:'grok-4.3',icon:'grok_bai.svg',desc:'xAI 旗舰模型'},
+  {name:'Banana pro官转',icon:'banana.svg',desc:'Banana 图像旗舰'},
+  {name:'Banana2 官转',icon:'banana.svg',desc:'Banana 图像生成'},
+  {name:'MiniMax-M3',icon:'minimax.svg',desc:'MiniMax 高效推理'},
+  {name:'Gemini-3.1-TTS',icon:'gemini.svg',desc:'Google 语音合成'},
+  {name:'豆包 Seed Evolving',icon:'doubao.svg',desc:'字节前沿模型'},
+  {name:'GPT-5.5 中推理',icon:'openai_bai.svg',desc:'OpenAI 中级推理'},
+  {name:'Suno 音乐生成 4.5',icon:'suno.png',desc:'AI音乐生成'},
+  {name:'GPT-5.5',icon:'openai_bai.svg',desc:'OpenAI 旗舰'},
+  {name:'opus-4-8',icon:'claude.svg',desc:'Anthropic 旗舰推理'},
+  {name:'Kimi K2.7 Code',icon:'kimi.svg',desc:'月之暗面编程'},
+  {name:'grok-video-3.5',icon:'grok_bai.svg',desc:'xAI 视频生成'},
+  {name:'VIDU Image 2',icon:'vidu-icon.svg',desc:'生数科技图像'},
+  {name:'豆包 Seed 2.1 Turbo',icon:'doubao.svg',desc:'字节极速模型'},
+  {name:'Vidu Q3 Turbo 参考生',icon:'vidu-icon.svg',desc:'参考图视频生成'}
+];
+let orbitModels=[...DEFAULT_ORBIT_MODELS];
+
+function getOrbitModels(){
+  if(iconsConfig&&iconsConfig.orbitModels&&iconsConfig.orbitModels.length>0)return iconsConfig.orbitModels;
+  return orbitModels;
+}
+
+function buildOrbit(){
+  const spin=document.getElementById('orbitSpin');
+  spin.innerHTML='';
+  const models=getOrbitModels();
+  orbitModels=models; // update reference for spotlight
+  const total=models.length;
+  models.forEach((m,i)=>{
+    const angle=((360/total)*i).toFixed(1);
+    const item=document.createElement('div');
+    item.className='orbit-item';
+    item.style.cssText=`--angle:${angle}deg`;
+    const wrap=document.createElement('div');
+    wrap.className='orbit-icon-wrap';
+    wrap.dataset.modelIdx=i;
+    const img=createRobustImg(m.icon||m.img,m.name,'orbit-icon');
+    const name=document.createElement('span');
+    name.className='orbit-name';
+    name.textContent=m.name;
+    wrap.appendChild(img);
+    wrap.appendChild(name);
+    item.appendChild(wrap);
+    spin.appendChild(item);
+  });
+}
+
+// Spotlight on hover
+function initSpotlight(){
+  const container=document.getElementById('orbitContainer');
+  const spotlight=document.getElementById('spotlight');
+  
+  container.querySelectorAll('.orbit-icon-wrap').forEach(wrap=>{
+    wrap.addEventListener('mouseenter',e=>{
+      const idx=parseInt(wrap.dataset.modelIdx);
+      const m=orbitModels[idx];
+      if(!m)return;
+      const sImgEl=document.getElementById('spotlightImg');
+      sImgEl.src='icons/'+(m.icon||m.img);
+      sImgEl.onerror=function(){const cdn=CDN_MAP[m.icon||m.img];if(cdn){sImgEl.onerror=null;sImgEl.src=cdn}else{sImgEl.src=FALLBACK_ICON;sImgEl.onerror=null}};
+      document.getElementById('spotlightName').textContent=m.name;
+      document.getElementById('spotlightDesc').textContent=m.desc;
+      const rect=wrap.getBoundingClientRect();
+      const heroRect=document.querySelector('.hero').getBoundingClientRect();
+      spotlight.style.left=(rect.left-heroRect.left+rect.width/2-60)+'px';
+      spotlight.style.top=(rect.top-heroRect.top-110)+'px';
+      spotlight.classList.add('visible');
+    });
+    wrap.addEventListener('mouseleave',()=>{
+      spotlight.classList.remove('visible');
+    });
+  });
+}
+
+// ============ PARTICLES ============
+function initParticles(){
+  const container=document.getElementById('particles');
+  for(let i=0;i<30;i++){
+    const p=document.createElement('div');
+    p.className='particle';
+    const size=Math.random()*3+2;
+    p.style.cssText=`left:${Math.random()*100}%;top:${Math.random()*100}%;width:${size}px;height:${size}px;animation:20s ease-in-out infinite particleDrift;animation-delay:${-Math.random()*20}s`;
+    container.appendChild(p);
+  }
+}
+
+// ============ MODEL SCROLL CARDS ============
+function initModelScroll(){
+  const DEFAULT_FEATURED=[
+    {name:'GPT-5.5 高推理',sub:'OpenAI · 行业领先推理能力',icon:'openai_bai.svg'},
+    {name:'GPT Image 2',sub:'OpenAI · 官方原生图像生成',icon:'openai_bai.svg'},
+    {name:'Omni Flash 10秒',sub:'Google Gemini · 极速响应',icon:'gemini.svg'},
+    {name:'Step 3.7 Flash',sub:'StepFun · 高效推理',icon:'step.svg'},
+    {name:'Kimi K2.7 Code',sub:'月之暗面 · 高速版',icon:'kimi.svg'},
+    {name:'GLM-5.2',sub:'智谱AI · 多模态',icon:'glm.svg'},
+    {name:'DeepSeek-v4-pro',sub:'DeepSeek · 深度推理',icon:'deepseek.svg'},
+    {name:'Grok-4.3',sub:'xAI · 旗舰推理',icon:'grok_bai.svg'},
+    {name:'千问 3.7 Max',sub:'阿里云 · 旗舰模型',icon:'qwen.svg'},
+    {name:'豆包 Seed 2.1',sub:'字节跳动 · 多模态',icon:'doubao.svg'},
+    {name:'Claude 4',sub:'Anthropic · 安全AI',icon:'claude.svg'},
+    {name:'MiniMax-M3',sub:'MiniMax · 高效推理',icon:'minimax.svg'},
+    {name:'Vidu Q3 Drama',sub:'生数科技 · 视频生成',icon:'vidu-icon.svg'},
+    {name:'快乐马1.1',sub:'阿里百炼 · 视频创作',icon:'happyhorse.svg'},
+    {name:'Banana pro',sub:'Banana · 图像生成',icon:'banana.svg'},
+    {name:'Mimo v2.5',sub:'Mimo · 多模态',icon:'mimo_bai.svg'},
+  ];
+  const models=(iconsConfig&&iconsConfig.featuredModels&&iconsConfig.featuredModels.length>0)?iconsConfig.featuredModels:DEFAULT_FEATURED;
+  const container=document.getElementById('modelScroll');
+  models.forEach(m=>{
+    const card=document.createElement('div');card.className='scroll-card';
+    const iconWrap=document.createElement('div');iconWrap.className='scroll-card-icon';
+    iconWrap.appendChild(createRobustImg(m.icon,m.name));
+    const info=document.createElement('div');info.className='scroll-card-info';
+    const nm=document.createElement('div');nm.className='scroll-card-name';nm.textContent=m.name;
+    const sb=document.createElement('div');sb.className='scroll-card-sub';sb.textContent=m.sub;
+    info.appendChild(nm);info.appendChild(sb);
+    card.appendChild(iconWrap);card.appendChild(info);
+    container.appendChild(card);
+  });
+}
+
+// ============ GALLERY (MASONRY) ============
+function initGallery(){
+  const items=[
+    {title:'AI人物肖像摄影',tags:['写实摄影','人物肖像','仿真人'],h:280},
+    {title:'赛博朋克城市夜景',tags:['概念艺术','赛博朋克','氛围感'],h:220},
+    {title:'国风水墨山水',tags:['国风插画','水墨画','东方美学'],h:320},
+    {title:'产品摄影 · 美妆展示',tags:['产品摄影','商业摄影','精致'],h:250},
+    {title:'动漫角色设计三视图',tags:['CG渲染','角色设计','三视图'],h:300},
+    {title:'梦幻森林精灵少女',tags:['插画艺术','梦幻风格','奇幻'],h:240},
+    {title:'3D机甲战士建模',tags:['3D渲染','机甲设计','科幻'],h:280},
+    {title:'美食摄影 · 甜品特写',tags:['美食摄影','微距','写食'],h:260},
+    {title:'电影级分镜脚本',tags:['分镜脚本','电影质感','四宫格'],h:230},
+  ];
+  const grid=document.getElementById('masonryGrid');
+  const colors=['#1a3a4a','#2a1a3a','#1a2a1a','#3a2a1a','#1a1a3a','#2a3a2a','#3a1a2a','#1a2a2a','#2a2a1a'];
+  
+  // Create 3 columns
+  for(let c=0;c<3;c++){
+    const col=document.createElement('div');col.className='masonry-col';
+    items.forEach((item,i)=>{
+      if(i%3!==c)return;
+      const card=document.createElement('div');card.className='item-card';
+      card.innerHTML=`<div class="item-cover" style="height:${item.h}px;background:linear-gradient(135deg,${colors[i%colors.length]},${colors[(i+3)%colors.length]})"><div style="display:flex;align-items:center;justify-content:center;height:100%;font-size:2.5rem;opacity:.15"><i class="fas fa-image"></i></div><div class="hover-overlay"><div class="overlay-stats"><span class="stat"><i class="fas fa-heart"></i> ${(Math.random()*999+100)|0}</span><span class="stat"><i class="fas fa-eye"></i> ${(Math.random()*9999+1000)|0}</span></div></div></div><div class="item-body"><div class="item-title">${item.title}</div><div class="item-tags">${item.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div></div>`;
+      col.appendChild(card);
+    });
+    grid.appendChild(col);
+  }
+}
+
+// ============ COUNTER ============
+function animateNum(el,target,dur){
+  const s=performance.now(),k=el.dataset.suffix==='K',dt=k?target/1000:target;
+  function u(now){const p=Math.min((now-s)/dur,1),e=1-Math.pow(1-p,3);el.textContent=k?Math.floor(e*dt)+'K':Math.floor(e*dt);if(p<1)requestAnimationFrame(u)}
+  requestAnimationFrame(u);
+}
+
+// ============ CDN FALLBACK ============
+window.addEventListener('error',function(e){const t=e.target;if(t&&t.tagName==='LINK'&&t.href&&(t.href.includes('cdnjs')||t.href.includes('cloudflare'))){const fb=document.createElement('link');fb.rel='stylesheet';fb.href='https://cdn.jsdelivr.net/npm/font-awesome@6.4.0/css/all.min.css';document.head.appendChild(fb);t.remove()}},true);
+
+// ============ MODALS & INTERACTIONS ============
+function openModal(type){
+  const m=document.getElementById(type+'Modal');
+  if(!m)return;
+  m.classList.add('active');
+  document.body.style.overflow='hidden';
+  applyI18n();
+}
+function closeModal(type){
+  const m=document.getElementById(type+'Modal');
+  if(!m)return;
+  m.classList.remove('active');
+  document.body.style.overflow='';
+}
+function showToast(msg){
+  const t=document.getElementById('toastEl');
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2500);
+}
+// ESC to close modals
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){['login','kefu','channel'].forEach(t=>closeModal(t))}});
+
+// Bind click-to-openLogin on all agent & platform cards (after DOM ready)
+function bindCardInteractions(){
+  document.querySelectorAll('.cap-card,.feat,.item-card,.load-btn').forEach(el=>{
+    el.style.cursor='pointer';
+    el.addEventListener('click',()=>openModal('login'));
+  });
+}
+document.addEventListener('DOMContentLoaded',async function(){
+  applyTheme();document.getElementById('langLabel').textContent=lang==='zh'?'EN':'中文';document.documentElement.lang=lang==='zh'?'zh-CN':'en';
+  applyI18n();initTypingEffect();initParticles();
+  // Load config first, then build UI (config is optional, falls back to defaults)
+  await loadIconsConfig();
+  buildOrbit();
+  setTimeout(()=>{document.getElementById('orbitContainer').classList.add('orbit-go')},300);
+  setTimeout(initSpotlight,3000);
+  initModelScroll();initGallery();
+  bindCardInteractions();
+  // Counter animation
+  document.querySelectorAll('.counter').forEach(c=>{
+    const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){animateNum(e.target,parseInt(e.target.dataset.target,10),1500);obs.unobserve(e.target)}})},{threshold:0.5});
+    obs.observe(c);
+  });
+});
+</script>
+</body>
+</html>

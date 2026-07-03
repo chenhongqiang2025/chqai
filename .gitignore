@@ -1,0 +1,16 @@
+# OS / IDE
+.DS_Store
+Thumbs.db
+.vscode/
+*.log
+
+# Node / dependency caches (never committed for a static site)
+node_modules/
+package-lock.json
+
+# Screenshots & temp verification artifacts
+*.tmp.png
+*.local.png
+
+# evolve-lite trajectories are session-local, entities+guidelines are fine to commit
+.evolve/trajectories/
