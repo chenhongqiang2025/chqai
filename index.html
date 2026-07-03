@@ -3,7 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>陳宏强AI - AI大模型聚合平台 | AI对话·AI绘画·AI视频·AI智能体</title>
+<title>陳宏强AI · AI大模型聚合平台 - Sora2·GPT Image·可灵·GPT-5.5·AI智能体</title>
+<meta name="description" content="陳宏强AI - 一站式AI大模型聚合平台，在线调用500+顶尖模型：Sora 2/Veo 3.1/可灵/即梦/Grok AI视频生成，GPT-5.5/Claude Opus/Gemini 3/DeepSeek智能对话，GPT Image 2/Nano Banana/Midjourney AI绘画，Suno音乐、AI配音、AI漫剧、电商一键生图，并提供OpenAI兼容API，免费试用。">
+<meta name="keywords" content="AI大模型,AI聚合平台,一站式AI平台,AI视频生成,文生视频,图生视频,Sora2,Veo3,可灵AI,即梦AI,Grok视频,Vidu,Seedance,海螺AI,AI绘画,AI生图,GPT Image,Nano Banana,Midjourney,即梦生图,AI对话,GPT-5.5,Claude Opus,Gemini 3,DeepSeek,Grok,千问,豆包,AI音乐生成,Suno,AI配音,AI智能体,AI漫剧,电商生图,一键生图,AI写作,免费AI,AI API,OpenAI兼容API">
+<meta name="author" content="chenhongqiang (Richard Chen)">
+<meta name="copyright" content="©2026 chenhongqiang (Richard Chen) - All Rights Reserved">
+<meta property="og:title" content="陳宏强AI · AI大模型聚合平台">
+<meta property="og:description" content="聚合 500+ 全球顶尖大模型，智能对话 / 图像创作 / 视频生成 / AI 智能体，一个平台，释放无限可能">
+<meta property="og:type" content="website">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='28' font-size='28'>🤖</text></svg>">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" id="fa-cdn">
 <style>
@@ -126,68 +133,22 @@ img{display:block;max-width:100%}
 .hero-inner{z-index:3;text-align:center;flex:1;justify-content:center;align-items:center;padding:0 1.5rem;display:flex;position:relative}
 .hero-center{width:100%;max-width:52rem;position:relative}
 
-/* ===== ORBIT — Tilted solar-system disk (perspective + rotateX) ===== */
-.orbit-container{
-  --tilt:58deg;
-  z-index:0;pointer-events:none;opacity:0;
-  width:0;height:0;position:absolute;top:50%;left:50%;
-  perspective:2400px;transform-style:preserve-3d;
-  transform:scale(0) rotateX(0deg);
-}
-/* Soft central glow that anchors the disk under the hero H1 */
-.orbit-glow{
-  position:absolute;top:50%;left:50%;pointer-events:none;
-  width:0;height:0;
-  filter:blur(3rem);opacity:0;
-  background:radial-gradient(closest-side,#00cae033,#00cae00d 40%,transparent 70%);
-  transform:translate(-50%,-50%);
-  will-change:transform,opacity;
-}
-.orbit-container.orbit-go .orbit-glow{
-  animation:2.5s cubic-bezier(.16,1,.3,1) .3s forwards orbitGlowIn;
-}
-@keyframes orbitGlowIn{
-  0%{opacity:0;width:0;height:0}
-  to{opacity:1;width:70rem;height:70rem}
-}
-.orbit-container.orbit-go{animation:2.8s cubic-bezier(.16,1,.3,1) forwards orbitEntrance}
-@keyframes orbitEntrance{
-  0%{opacity:0;transform:scale(0) rotateX(0deg)}
-  15%{opacity:1}
-  to{opacity:1;transform:scale(1.28) rotateX(var(--tilt))}
-}
-/* Rings — each is a Z-rotating plane inside the tilted container */
-.orbit-spin{will-change:transform;width:0;height:0;position:absolute;top:0;left:0;transform-style:preserve-3d}
-.orbit-spin.ring-1{--r:24rem}
-.orbit-spin.ring-2{--r:36rem}
-.orbit-go .orbit-spin.ring-1{animation:90s linear infinite orbitRotate}
-.orbit-go .orbit-spin.ring-2{animation:140s linear infinite reverse orbitRotate}
+/* ===== ORBIT (Pure CSS — spec §4.5 §4.6 exact values) ===== */
+.orbit-container{--orbit-r:26rem;z-index:-1;pointer-events:none;opacity:0;width:0;height:0;position:absolute;top:50%;left:50%;transform:scale(0) rotate(-360deg)}
+.orbit-container.orbit-go{animation:2.5s cubic-bezier(.16,1,.3,1) forwards orbitEntrance}
+@keyframes orbitEntrance{0%{opacity:0;transform:scale(0) rotate(-360deg)}15%{opacity:1}to{opacity:1;transform:scale(1.25) rotate(0)}}
+.orbit-spin{will-change:transform;width:0;height:0;position:absolute;top:0;left:0}
+.orbit-go .orbit-spin{animation:80s linear infinite orbitRotate}
 @keyframes orbitRotate{0%{transform:rotate(0)}to{transform:rotate(360deg)}}
-.orbit-item{width:0;height:0;transform:rotate(var(--angle)) translateY(calc(var(--r) * -1));position:absolute;top:0;left:0;transform-style:preserve-3d}
-/* Icons: counter-rotate around Z (upright vs ring spin) AND around X (face camera through tilt) */
-.orbit-icon-wrap{
-  transform:rotate(calc(var(--angle) * -1)) translateX(-50%) rotateX(calc(var(--tilt) * -1));
-  pointer-events:auto;cursor:default;opacity:0;
-  flex-direction:column;align-items:center;gap:.18rem;
-  transition:opacity 1.5s;display:flex;
-  transform-origin:0 0;
-  transform-style:preserve-3d;
-}
-.orbit-go .ring-1 .orbit-icon-wrap{opacity:.7;animation:90s linear infinite orbitCounterRotate}
-.orbit-go .ring-2 .orbit-icon-wrap{opacity:.55;animation:140s linear infinite reverse orbitCounterRotate}
+.orbit-item{width:0;height:0;transform:rotate(var(--angle)) translateY(calc(var(--orbit-r) * -1));position:absolute;top:0;left:0}
+.orbit-icon-wrap{transform:rotate(calc(var(--angle) * -1)) translateX(-50%);pointer-events:auto;cursor:default;opacity:0;flex-direction:column;align-items:center;gap:.18rem;transition:opacity 1.5s;display:flex}
+.orbit-go .orbit-icon-wrap{opacity:.5;animation:80s linear infinite orbitCounterRotate}
 .orbit-icon-wrap:hover{transition:opacity .3s;opacity:1!important}
-@keyframes orbitCounterRotate{
-  0%{transform:rotate(calc(var(--angle) * -1)) translateX(-50%) rotateX(calc(var(--tilt) * -1))}
-  to{transform:rotate(calc(var(--angle) * -1 - 360deg)) translateX(-50%) rotateX(calc(var(--tilt) * -1))}
-}
-.orbit-icon{object-fit:contain;filter:drop-shadow(0 0 .6rem #00cae033);background:linear-gradient(135deg,#1e1f28,#141419);border:1px solid #ffffff20;border-radius:.6rem;width:3rem;height:3rem;padding:.42rem;transition:filter .3s,border-color .3s,transform .3s,box-shadow .3s;box-shadow:0 4px 14px #00000066,inset 0 1px 0 #ffffff10}
-.orbit-icon-wrap:hover .orbit-icon{filter:drop-shadow(0 0 .9rem #00cae080);border-color:#00cae080;transform:scale(1.2);box-shadow:0 6px 18px #00000080,0 0 20px #00cae033}
-.orbit-name{color:#ffffff66;white-space:nowrap;letter-spacing:.02em;text-overflow:ellipsis;text-align:center;max-width:4.2rem;font-size:.58rem;transition:color .3s;overflow:hidden;text-shadow:0 1px 4px #000c}
-.orbit-icon-wrap:hover .orbit-name{color:#00cae0e6}
-/* Faint elliptical guide rings — projected through the perspective tilt */
-.orbit-ring-line{position:absolute;top:50%;left:50%;border:1px solid #00cae01a;border-radius:50%;transform:translate(-50%,-50%);pointer-events:none}
-.orbit-ring-line.ring-1{width:48rem;height:48rem;box-shadow:inset 0 0 30px #00cae008}
-.orbit-ring-line.ring-2{width:72rem;height:72rem;box-shadow:inset 0 0 40px #00cae008}
+@keyframes orbitCounterRotate{0%{transform:rotate(calc(var(--angle) * -1)) translateX(-50%)}to{transform:rotate(calc(var(--angle) * -1 - 360deg)) translateX(-50%)}}
+.orbit-icon{object-fit:contain;filter:drop-shadow(0 0 .48rem #00cae01f);background:#1a1a22;border:1px solid #ffffff1a;border-radius:.48rem;width:1.79rem;height:1.79rem;padding:.24rem;transition:filter .3s,border-color .3s}
+.orbit-icon-wrap:hover .orbit-icon{filter:drop-shadow(0 0 .71rem #00cae04d);border-color:#00cae04d}
+.orbit-name{color:#ffffff59;white-space:nowrap;letter-spacing:.02em;text-overflow:ellipsis;text-align:center;max-width:3.81rem;font-size:.55rem;transition:color .3s;overflow:hidden}
+.orbit-icon-wrap:hover .orbit-name{color:#00cae0cc}
 
 /* Spotlight tooltip */
 .spotlight{z-index:10;pointer-events:none;will-change:left,top,transform,opacity;position:absolute;opacity:0;transition:opacity .2s}
@@ -352,6 +313,35 @@ img{display:block;max-width:100%}
 /* Toast notification */
 .toast{position:fixed;top:5rem;left:50%;transform:translateX(-50%) translateY(-20px);background:var(--bg-card);border:1px solid var(--card-bd);border-radius:.6rem;padding:.7rem 1.5rem;font-size:.85rem;color:var(--color-text-primary);z-index:10001;opacity:0;transition:all .3s;box-shadow:var(--shadow-md);pointer-events:none;white-space:nowrap}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+/* Login modal — spec §5.2: 6 methods + tabs + agreement */
+.login-social{display:flex;justify-content:center;gap:.6rem;margin:.3rem 0 1.1rem}
+.login-social-btn{width:2.6rem;height:2.6rem;border-radius:50%;background:var(--card-bg);border:1px solid var(--card-bd);display:flex;align-items:center;justify-content:center;font-size:1.05rem;cursor:pointer;transition:all .2s}
+.login-social-btn:hover{border-color:var(--card-bd-h);background:var(--bg-hover-solid);transform:translateY(-.1rem)}
+.login-social-btn.wx{color:#07c160}
+.login-social-btn.gh{color:var(--color-text-primary)}
+.login-social-btn.gg{color:#ea4335}
+.login-social-btn.qq{color:#12b7f5}
+.login-or{display:flex;align-items:center;gap:.7rem;color:var(--color-text-tertiary);font-size:.72rem;margin:.6rem 0 .8rem}
+.login-or::before,.login-or::after{content:"";flex:1;height:1px;background:var(--card-bd)}
+.login-tabs{display:flex;gap:.3rem;justify-content:center;margin-bottom:.9rem}
+.login-tab{background:transparent;color:var(--color-text-secondary);border:none;padding:.35rem .8rem;font-size:.82rem;font-weight:500;border-radius:.4rem;cursor:pointer;transition:all .2s;border-bottom:2px solid transparent}
+.login-tab.active{color:var(--color-primary);border-bottom-color:var(--color-primary)}
+.login-tab:hover:not(.active){color:var(--color-text-primary)}
+.login-form{display:flex;flex-direction:column;gap:.6rem;margin-bottom:.9rem}
+.login-input-row{display:flex;gap:.5rem;align-items:stretch}
+.login-input{flex:1;background:var(--bg-input);border:1px solid var(--card-bd);border-radius:.45rem;padding:.6rem .85rem;font-size:.85rem;color:var(--color-text-primary);outline:none;transition:border-color .2s}
+.login-input:focus{border-color:var(--card-bd-h)}
+.login-input-btn{background:var(--card-bg);color:var(--color-primary);border:1px solid var(--card-bd);border-radius:.45rem;padding:.55rem .9rem;font-size:.78rem;font-weight:600;cursor:pointer;transition:all .2s;white-space:nowrap}
+.login-input-btn:hover{border-color:var(--card-bd-h);background:#00cae00d}
+.login-agree{display:flex;align-items:flex-start;gap:.4rem;font-size:.72rem;color:var(--color-text-secondary);text-align:left;margin-bottom:.9rem;cursor:pointer;line-height:1.5}
+.login-agree input{margin-top:.2rem;accent-color:var(--color-primary)}
+.login-agree a{color:var(--color-primary);text-decoration:none}
+.login-agree a:hover{text-decoration:underline}
+.login-submit{width:100%;background:linear-gradient(135deg,var(--color-primary),#00a0c8);color:#fff;border:none;border-radius:99rem;padding:.75rem 1rem;font-size:.9rem;font-weight:600;cursor:pointer;box-shadow:0 0 1.2rem #00cae040;transition:all .3s}
+.login-submit:hover{transform:translateY(-.1rem);box-shadow:0 0 2rem #00cae060}
+.login-recovery{margin-top:.8rem;font-size:.75rem;color:var(--color-text-tertiary);text-align:center}
+.login-recovery a{color:var(--color-primary);text-decoration:none}
+.login-recovery a:hover{text-decoration:underline}
 
 /* ===== RESPONSIVE ===== */
 @media(max-width:1024px){
@@ -409,13 +399,9 @@ img{display:block;max-width:100%}
 
 <!-- ===== HERO ===== -->
 <section class="hero">
-  <!-- CSS Orbit — tilted solar-system disk with 2 rings + central glow -->
+  <!-- CSS Orbit — single flat ring per spec §4.5 -->
   <div class="orbit-container" id="orbitContainer">
-    <div class="orbit-glow"></div>
-    <div class="orbit-ring-line ring-1"></div>
-    <div class="orbit-ring-line ring-2"></div>
-    <div class="orbit-spin ring-1" id="orbitSpin1"></div>
-    <div class="orbit-spin ring-2" id="orbitSpin2"></div>
+    <div class="orbit-spin" id="orbitSpin"></div>
   </div>
   <!-- Spotlight tooltip -->
   <div class="spotlight" id="spotlight">
@@ -592,20 +578,66 @@ img{display:block;max-width:100%}
 <button class="kefu-fab" aria-label="联系客服" onclick="openModal('kefu')"><i class="fas fa-headset"></i></button>
 
 <!-- ===== MODALS ===== -->
-<!-- Login Modal -->
+<!-- Login Modal — spec §5.2: 6 login methods + tabs + agreement + recovery -->
 <div class="modal-overlay" id="loginModal" onclick="if(event.target===this)closeModal('login')">
-  <div class="modal-box">
+  <div class="modal-box" style="max-width:400px">
     <button class="modal-close" onclick="closeModal('login')"><i class="fas fa-times"></i></button>
     <div class="modal-icon"><i class="fas fa-user-plus"></i></div>
     <h3 class="modal-title" data-i18n="ml_title">登录 / 注册</h3>
     <p class="modal-desc" data-i18n="ml_desc">登录后即可使用 500+ AI 大模型，开启您的 AI 创作之旅</p>
-    <div class="modal-actions">
-      <button class="modal-btn" style="background:#07c160"><i class="fab fa-weixin" style="margin-right:6px"></i> <span data-i18n="ml_wx">微信登录</span></button>
-      <button class="modal-btn" style="background:#333"><i class="fab fa-github" style="margin-right:6px"></i> <span data-i18n="ml_gh">GitHub</span></button>
-      <button class="modal-btn" style="background:#ea4335"><i class="fab fa-google" style="margin-right:6px"></i> <span data-i18n="ml_gg">Google</span></button>
+
+    <!-- 4 OAuth methods -->
+    <div class="login-social">
+      <button class="login-social-btn wx" title="微信" onclick="showToast(lang==='zh'?'微信登录即将上线':'WeChat login coming soon')"><i class="fab fa-weixin"></i></button>
+      <button class="login-social-btn gh" title="GitHub" onclick="showToast(lang==='zh'?'GitHub 登录即将上线':'GitHub login coming soon')"><i class="fab fa-github"></i></button>
+      <button class="login-social-btn gg" title="Google" onclick="showToast(lang==='zh'?'Google 登录即将上线':'Google login coming soon')"><i class="fab fa-google"></i></button>
+      <button class="login-social-btn qq" title="QQ" onclick="showToast(lang==='zh'?'QQ 登录即将上线':'QQ login coming soon')"><i class="fab fa-qq"></i></button>
     </div>
-    <div style="margin-top:1rem">
-      <button class="modal-btn-ghost" data-i18n="ml_email"><i class="fas fa-envelope" style="margin-right:4px"></i> 邮箱登录</button>
+
+    <div class="login-or" data-i18n="ml_or">或</div>
+
+    <!-- 3 tabs: phone / email / password -->
+    <div class="login-tabs">
+      <button class="login-tab active" data-tab="phone" onclick="switchLoginTab('phone')" data-i18n="ml_tab_phone">手机号</button>
+      <button class="login-tab" data-tab="email" onclick="switchLoginTab('email')" data-i18n="ml_tab_email">邮箱</button>
+      <button class="login-tab" data-tab="password" onclick="switchLoginTab('password')" data-i18n="ml_tab_pw">密码</button>
+    </div>
+
+    <!-- Phone form -->
+    <div class="login-form" data-form="phone">
+      <input class="login-input" type="tel" placeholder="请输入手机号" data-i18n-ph="ml_ph_phone">
+      <div class="login-input-row">
+        <input class="login-input" placeholder="验证码" data-i18n-ph="ml_ph_code">
+        <button class="login-input-btn" onclick="showToast(lang==='zh'?'验证码已发送':'Code sent')" data-i18n="ml_send">获取验证码</button>
+      </div>
+    </div>
+    <!-- Email form -->
+    <div class="login-form" data-form="email" style="display:none">
+      <input class="login-input" type="email" placeholder="请输入邮箱" data-i18n-ph="ml_ph_email">
+      <div class="login-input-row">
+        <input class="login-input" placeholder="验证码" data-i18n-ph="ml_ph_code">
+        <button class="login-input-btn" onclick="showToast(lang==='zh'?'验证码已发送':'Code sent')" data-i18n="ml_send">获取验证码</button>
+      </div>
+    </div>
+    <!-- Password form -->
+    <div class="login-form" data-form="password" style="display:none">
+      <input class="login-input" placeholder="手机号 / 邮箱" data-i18n-ph="ml_ph_account">
+      <input class="login-input" type="password" placeholder="请输入密码" data-i18n-ph="ml_ph_pw">
+      <div class="login-input-row">
+        <input class="login-input" placeholder="图形验证码" data-i18n-ph="ml_ph_captcha">
+        <div class="login-input-btn" style="display:flex;align-items:center;font-family:monospace;letter-spacing:.15em;color:var(--color-text-primary);pointer-events:none;user-select:none">A7X9</div>
+      </div>
+    </div>
+
+    <label class="login-agree">
+      <input type="checkbox" id="loginAgreeChk">
+      <span data-i18n="ml_agree">我已阅读并同意 <a href="#" onclick="event.preventDefault();showToast(lang==='zh'?'用户协议即将上线':'Terms coming soon')">用户协议</a> 和 <a href="#" onclick="event.preventDefault();showToast(lang==='zh'?'隐私政策即将上线':'Privacy coming soon')">隐私政策</a></span>
+    </label>
+
+    <button class="login-submit" onclick="submitLogin()" data-i18n="ml_submit">登录 / 注册</button>
+
+    <div class="login-recovery">
+      <a href="#" onclick="event.preventDefault();showToast(lang==='zh'?'找回账号入口即将上线':'Account recovery coming soon')" data-i18n="ml_recover">找回账号</a>
     </div>
   </div>
 </div>
@@ -644,12 +676,16 @@ img{display:block;max-width:100%}
 <script>
 // ============ I18N ============
 const T={
-zh:{logo:'陳宏强AI',ns:'客服',nd:'开发者',nstart:'<span class="nav-btn-text">开始使用</span> <i class="fas fa-arrow-right"></i>',hb:'新一代 AI 平台',ht1:'让 AI 为你',hsub:'聚合 500+ 全球顶尖大模型，智能对话 / 图像创作 / 视频生成 / AI 智能体，一个平台，释放无限可能',bs:'<span>开始使用</span> <i class="fas fa-arrow-right"></i>',bb:'<i class="fas fa-envelope"></i><span>商务合作</span>',sm:'AI 模型',sc:'创作者',sx:'创造力',mt:'热门模型',at:'不只是工具，是你的创作搭档',ad:'从文案到视频、从灵感到成品 —— AI 智能体帮你全流程搞定，效率提升 10 倍。',a1t:'一键生成漫剧',a1d:'输入文案或参考图，AI 自动拆分镜头、生成角色、配音、合成视频，全流程一键完成。',a2t:'智能长视频创作',a2d:'多张参考图 + 文字描述，精准控制画面内容与时长，生成连贯的专业级长视频。',a3t:'风格一键切换',a3d:'赛博朋克、水墨国风、3D 动画、写实电影……海量风格随心切换，创作不设限。',a4t:'画面配音自动匹配',a4d:'智能语音合成 + 画面节奏匹配，解说版、剧情版自由选择，让内容更有灵魂。',atry:'立即体验 <i class="fas fa-arrow-right"></i>',pt:'四大核心能力，一个平台',p1t:'智能对话',p1d:'GPT-4o / Claude / Gemini / DeepSeek，多模型自由切换，精准回答每一个问题。',p2t:'图像创作',p2d:'Midjourney / FLUX / 即梦 / DALL·E，输入文字即刻出图，写实、插画、3D 任选。',p3t:'视频生成',p3d:'Sora 2 / 可灵 / Luma / Veo / Runway，文字或图片一键生成电影级视频。',p4t:'语音合成',p4d:'多语言、多音色智能配音，从旁白到对白，让你的内容拥有专业级声音。',igt:'灵感广场',igd:'看看大家都在用 AI 创作什么',igm:'<i class="fas fa-chevron-down" style="font-size:.7rem"></i> <span>加载更多灵感</span>',ct1:'现在就开始 ',ct2:'你的 AI 创作之旅',cd:'30+ 顶尖模型 / AI 智能体 / 灵感广场 —— 一站直达',cr:'<span>立即注册</span> <i class="fas fa-arrow-right"></i>',cc:'<i class="fas fa-headset"></i><span>联系客服</span>',fd:'陳宏强AI - 企业级 AI 接口服务平台',fl1:'联系客服',fl2:'举报与反馈',fl3:'隐私政策',fl4:'用户协议',ml_title:'登录 / 注册',ml_desc:'登录后即可使用 500+ AI 大模型，开启您的 AI 创作之旅',ml_wx:'微信登录',ml_gh:'GitHub',ml_gg:'Google',ml_email:'<i class="fas fa-envelope" style="margin-right:4px"></i> 邮箱登录',mk_title:'联系客服',mk_desc:'如有任何问题，请通过以下方式联系我们的客服团队',mk_wx:'添加微信客服',mc_title:'商务合作',mc_desc:'成为渠道合作伙伴，享受专属折扣和分成方案'},
-en:{logo:'Richard Chen AI',ns:'Support',nd:'Developers',nstart:'<span class="nav-btn-text">Get Started</span> <i class="fas fa-arrow-right"></i>',hb:'Next-Gen AI Platform',ht1:'Let AI Do It for You',hsub:'Aggregating 500+ global top large models: intelligent dialogue / image creation / video generation / AI agents — one platform, unlimited possibilities.',bs:'<span>Get Started</span> <i class="fas fa-arrow-right"></i>',bb:'<i class="fas fa-envelope"></i><span>Business Cooperation</span>',sm:'AI Models',sc:'Creators',sx:'Creativity',mt:'Popular Models',at:'Not Just a Tool — Your Creative Partner',ad:'From copywriting to video, from inspiration to finished product — AI agents handle the entire workflow, boosting efficiency 10x.',a1t:'One-Click Comic Generation',a1d:'Input text or reference images, and AI auto-splits scenes, generates characters, adds voiceover, and composites video — all in one click.',a2t:'Smart Long Video Creation',a2d:'Multiple reference images + text descriptions for precise control over content and duration, generating coherent professional-grade long videos.',a3t:'One-Click Style Switching',a3d:'Cyberpunk, ink painting, 3D animation, realistic cinema… switch freely between countless styles with no creative limits.',a4t:'Auto Voiceover Matching',a4d:'Smart speech synthesis + rhythm matching — choose commentary or storytelling mode to give your content a soul.',atry:'Try Now <i class="fas fa-arrow-right"></i>',pt:'Four Core Capabilities, One Platform',p1t:'Smart Dialogue',p1d:'GPT-4o / Claude / Gemini / DeepSeek — freely switch between models for precise answers to any question.',p2t:'Image Creation',p2d:'Midjourney / FLUX / Jimeng / DALL·E — generate images instantly from text, in realistic, illustration, or 3D styles.',p3t:'Video Generation',p3d:'Sora 2 / Kling / Luma / Veo / Runway — generate cinematic videos from text or images with one click.',p4t:'Voice Synthesis',p4d:'Multi-language, multi-voice smart dubbing — from narration to dialogue, give your content professional-grade sound.',igt:'Inspiration Hub',igd:'See what everyone is creating with AI',igm:'<i class="fas fa-chevron-down" style="font-size:.7rem"></i> <span>Load More</span>',ct1:'Start Your ',ct2:'AI Creative Journey Now',cd:'30+ top models / AI agents / Inspiration hub — all in one place',cr:'<span>Register Now</span> <i class="fas fa-arrow-right"></i>',cc:'<i class="fas fa-headset"></i><span>Contact Support</span>',fd:'Richard Chen AI — Enterprise-grade AI API Service Platform',fl1:'Contact Support',fl2:'Report & Feedback',fl3:'Privacy Policy',fl4:'Terms of Service',ml_title:'Login / Register',ml_desc:'Sign in to access 500+ AI models and start your AI creative journey',ml_wx:'WeChat Login',ml_gh:'GitHub',ml_gg:'Google',ml_email:'<i class="fas fa-envelope" style="margin-right:4px"></i> Email Login',mk_title:'Contact Support',mk_desc:'Have questions? Reach our support team through the channels below',mk_wx:'Add WeChat Support',mc_title:'Business Cooperation',mc_desc:'Become a channel partner with exclusive discounts and revenue sharing'}
+zh:{logo:'陳宏强AI',ns:'客服',nd:'开发者',nstart:'<span class="nav-btn-text">开始使用</span> <i class="fas fa-arrow-right"></i>',hb:'新一代 AI 平台',ht1:'让 AI 为你',hsub:'聚合 500+ 全球顶尖大模型，智能对话 / 图像创作 / 视频生成 / AI 智能体，一个平台，释放无限可能',bs:'<span>开始使用</span> <i class="fas fa-arrow-right"></i>',bb:'<i class="fas fa-envelope"></i><span>商务合作</span>',sm:'AI 模型',sc:'创作者',sx:'创造力',mt:'热门模型',at:'不只是工具，是你的创作搭档',ad:'从文案到视频、从灵感到成品 —— AI 智能体帮你全流程搞定，效率提升 10 倍。',a1t:'一键生成漫剧',a1d:'输入文案或参考图，AI 自动拆分镜头、生成角色、配音、合成视频，全流程一键完成。',a2t:'智能长视频创作',a2d:'多张参考图 + 文字描述，精准控制画面内容与时长，生成连贯的专业级长视频。',a3t:'风格一键切换',a3d:'赛博朋克、水墨国风、3D 动画、写实电影……海量风格随心切换，创作不设限。',a4t:'画面配音自动匹配',a4d:'智能语音合成 + 画面节奏匹配，解说版、剧情版自由选择，让内容更有灵魂。',atry:'立即体验 <i class="fas fa-arrow-right"></i>',pt:'四大核心能力，一个平台',p1t:'智能对话',p1d:'GPT-4o / Claude / Gemini / DeepSeek，多模型自由切换，精准回答每一个问题。',p2t:'图像创作',p2d:'Midjourney / FLUX / 即梦 / DALL·E，输入文字即刻出图，写实、插画、3D 任选。',p3t:'视频生成',p3d:'Sora 2 / 可灵 / Luma / Veo / Runway，文字或图片一键生成电影级视频。',p4t:'语音合成',p4d:'多语言、多音色智能配音，从旁白到对白，让你的内容拥有专业级声音。',igt:'灵感广场',igd:'看看大家都在用 AI 创作什么',igm:'<i class="fas fa-chevron-down" style="font-size:.7rem"></i> <span>加载更多灵感</span>',ct1:'现在就开始 ',ct2:'你的 AI 创作之旅',cd:'30+ 顶尖模型 / AI 智能体 / 灵感广场 —— 一站直达',cr:'<span>立即注册</span> <i class="fas fa-arrow-right"></i>',cc:'<i class="fas fa-headset"></i><span>联系客服</span>',fd:'陳宏强AI - 企业级 AI 接口服务平台',fl1:'联系客服',fl2:'举报与反馈',fl3:'隐私政策',fl4:'用户协议',ml_title:'登录 / 注册',ml_desc:'登录后即可使用 500+ AI 大模型，开启您的 AI 创作之旅',ml_wx:'微信登录',ml_gh:'GitHub',ml_gg:'Google',ml_qq:'QQ',ml_or:'或',ml_tab_phone:'手机号',ml_tab_email:'邮箱',ml_tab_pw:'密码',ml_ph_phone:'请输入手机号',ml_ph_email:'请输入邮箱',ml_ph_code:'验证码',ml_ph_account:'手机号 / 邮箱',ml_ph_pw:'请输入密码',ml_ph_captcha:'图形验证码',ml_send:'获取验证码',ml_submit:'登录 / 注册',ml_agree:'我已阅读并同意 <a href="#" onclick="event.preventDefault();showToast(lang===\'zh\'?\'用户协议即将上线\':\'Terms coming soon\')">用户协议</a> 和 <a href="#" onclick="event.preventDefault();showToast(lang===\'zh\'?\'隐私政策即将上线\':\'Privacy coming soon\')">隐私政策</a>',ml_recover:'找回账号',mk_title:'联系客服',mk_desc:'如有任何问题，请通过以下方式联系我们的客服团队',mk_wx:'添加微信客服',mc_title:'商务合作',mc_desc:'成为渠道合作伙伴，享受专属折扣和分成方案'},
+en:{logo:'Richard Chen AI',ns:'Support',nd:'Developers',nstart:'<span class="nav-btn-text">Get Started</span> <i class="fas fa-arrow-right"></i>',hb:'Next-Gen AI Platform',ht1:'Let AI Do It for You',hsub:'Aggregating 500+ global top large models: intelligent dialogue / image creation / video generation / AI agents — one platform, unlimited possibilities.',bs:'<span>Get Started</span> <i class="fas fa-arrow-right"></i>',bb:'<i class="fas fa-envelope"></i><span>Business Cooperation</span>',sm:'AI Models',sc:'Creators',sx:'Creativity',mt:'Popular Models',at:'Not Just a Tool — Your Creative Partner',ad:'From copywriting to video, from inspiration to finished product — AI agents handle the entire workflow, boosting efficiency 10x.',a1t:'One-Click Comic Generation',a1d:'Input text or reference images, and AI auto-splits scenes, generates characters, adds voiceover, and composites video — all in one click.',a2t:'Smart Long Video Creation',a2d:'Multiple reference images + text descriptions for precise control over content and duration, generating coherent professional-grade long videos.',a3t:'One-Click Style Switching',a3d:'Cyberpunk, ink painting, 3D animation, realistic cinema… switch freely between countless styles with no creative limits.',a4t:'Auto Voiceover Matching',a4d:'Smart speech synthesis + rhythm matching — choose commentary or storytelling mode to give your content a soul.',atry:'Try Now <i class="fas fa-arrow-right"></i>',pt:'Four Core Capabilities, One Platform',p1t:'Smart Dialogue',p1d:'GPT-4o / Claude / Gemini / DeepSeek — freely switch between models for precise answers to any question.',p2t:'Image Creation',p2d:'Midjourney / FLUX / Jimeng / DALL·E — generate images instantly from text, in realistic, illustration, or 3D styles.',p3t:'Video Generation',p3d:'Sora 2 / Kling / Luma / Veo / Runway — generate cinematic videos from text or images with one click.',p4t:'Voice Synthesis',p4d:'Multi-language, multi-voice smart dubbing — from narration to dialogue, give your content professional-grade sound.',igt:'Inspiration Hub',igd:'See what everyone is creating with AI',igm:'<i class="fas fa-chevron-down" style="font-size:.7rem"></i> <span>Load More</span>',ct1:'Start Your ',ct2:'AI Creative Journey Now',cd:'30+ top models / AI agents / Inspiration hub — all in one place',cr:'<span>Register Now</span> <i class="fas fa-arrow-right"></i>',cc:'<i class="fas fa-headset"></i><span>Contact Support</span>',fd:'Richard Chen AI — Enterprise-grade AI API Service Platform',fl1:'Contact Support',fl2:'Report & Feedback',fl3:'Privacy Policy',fl4:'Terms of Service',ml_title:'Login / Register',ml_desc:'Sign in to access 500+ AI models and start your AI creative journey',ml_wx:'WeChat Login',ml_gh:'GitHub',ml_gg:'Google',ml_qq:'QQ',ml_or:'OR',ml_tab_phone:'Phone',ml_tab_email:'Email',ml_tab_pw:'Password',ml_ph_phone:'Enter phone number',ml_ph_email:'Enter email',ml_ph_code:'Verification code',ml_ph_account:'Phone / Email',ml_ph_pw:'Enter password',ml_ph_captcha:'Captcha',ml_send:'Send Code',ml_submit:'Login / Register',ml_agree:'I have read and agree to the <a href="#" onclick="event.preventDefault();showToast(\'Terms coming soon\')">Terms</a> and <a href="#" onclick="event.preventDefault();showToast(\'Privacy coming soon\')">Privacy Policy</a>',ml_recover:'Recover account',mk_title:'Contact Support',mk_desc:'Have questions? Reach our support team through the channels below',mk_wx:'Add WeChat Support',mc_title:'Business Cooperation',mc_desc:'Become a channel partner with exclusive discounts and revenue sharing'}
 };
 let lang=localStorage.getItem('lang')||'zh';
 function switchLang(){lang=lang==='zh'?'en':'zh';localStorage.setItem('lang',lang);document.getElementById('langLabel').textContent=lang==='zh'?'EN':'中文';document.documentElement.lang=lang==='zh'?'zh-CN':'en';applyI18n();initTypingEffect()}
-function applyI18n(){const m=T[lang];document.querySelectorAll('[data-i18n]').forEach(e=>{const k=e.getAttribute('data-i18n');if(m[k])e.innerHTML=m[k]})}
+function applyI18n(){
+  const m=T[lang];
+  document.querySelectorAll('[data-i18n]').forEach(e=>{const k=e.getAttribute('data-i18n');if(m[k])e.innerHTML=m[k]});
+  document.querySelectorAll('[data-i18n-ph]').forEach(e=>{const k=e.getAttribute('data-i18n-ph');if(m[k])e.setAttribute('placeholder',m[k])});
+}
 
 // ============ THEME ============
 let theme=localStorage.getItem('theme')||'dark';
@@ -660,7 +696,11 @@ function applyTheme(){document.documentElement.setAttribute('data-theme',theme);
 window.addEventListener('scroll',()=>{document.getElementById('mainNav').classList.toggle('scrolled',window.scrollY>50)},{passive:true});
 
 // ============ TYPING EFFECT ============
-const typingTexts={zh:['生成图片','智能对话','创作视频','一键漫剧','作曲编曲'],en:['Generate Images','Smart Dialogue','Create Videos','One-Click Comics','Compose Music']};
+// Spec §6.2: 6 typing loops in exact order
+const typingTexts={
+  zh:['创作视频','生成图片','制作长视频','一键漫剧','释放灵感','智能对话'],
+  en:['Create videos','Generate images','Make long videos','One-click comics','Release ideas','Smart chat']
+};
 let typingIdx=0,charIdx=0,isDeleting=false,typeTimer=null;
 function initTypingEffect(){if(typeTimer)clearInterval(typeTimer);typingIdx=0;charIdx=0;isDeleting=false;typeTimer=setInterval(doTyping,80)}
 function doTyping(){const el=document.getElementById('typingText');if(!el)return;const texts=typingTexts[lang]||typingTexts.zh;const current=texts[typingIdx%texts.length];if(!isDeleting){el.textContent=current.substring(0,charIdx+1);charIdx++;if(charIdx>=current.length){isDeleting=true;clearInterval(typeTimer);typeTimer=setInterval(doTyping,2000);return}}else{el.textContent=current.substring(0,charIdx-1);charIdx--;if(charIdx<=0){isDeleting=false;typingIdx++;clearInterval(typeTimer);typeTimer=setInterval(doTyping,80)}}}
@@ -811,40 +851,27 @@ function getOrbitModels(){
 }
 
 function buildOrbit(){
-  const spin1=document.getElementById('orbitSpin1');
-  const spin2=document.getElementById('orbitSpin2');
-  spin1.innerHTML='';spin2.innerHTML='';
+  const spin=document.getElementById('orbitSpin');
+  spin.innerHTML='';
   const models=getOrbitModels();
   orbitModels=models; // update reference for spotlight
-  // Split ~40% inner ring, ~60% outer ring for balanced density
   const total=models.length;
-  const innerCount=Math.floor(total*0.4);
-  const outerCount=total-innerCount;
-  // Alternate assignment so brands cluster less; keep visual variety
-  const inner=[],outer=[];
-  models.forEach((m,i)=>{(i%5<2?inner:outer).push(m)});
-  // Rebalance if uneven
-  while(inner.length>innerCount)outer.push(inner.pop());
-  while(outer.length>outerCount)inner.push(outer.pop());
-  buildRing(spin1,inner,0);
-  buildRing(spin2,outer,inner.length,-11); // slight angular offset for outer ring
-}
-function buildRing(spin,list,idxOffset,angleOffset){
-  const total=list.length||1;
-  list.forEach((m,i)=>{
-    const angle=(((360/total)*i)+(angleOffset||0)).toFixed(1);
+  models.forEach((m,i)=>{
+    const angle=((360/total)*i).toFixed(1);
     const item=document.createElement('div');
     item.className='orbit-item';
     item.style.cssText=`--angle:${angle}deg`;
     const wrap=document.createElement('div');
     wrap.className='orbit-icon-wrap';
-    wrap.dataset.modelIdx=(idxOffset||0)+i;
+    wrap.dataset.modelIdx=i;
     const img=createRobustImg(m.icon||m.img,m.name,'orbit-icon',true);
     const name=document.createElement('span');
     name.className='orbit-name';
     name.textContent=m.name;
-    wrap.appendChild(img);wrap.appendChild(name);
-    item.appendChild(wrap);spin.appendChild(item);
+    wrap.appendChild(img);
+    wrap.appendChild(name);
+    item.appendChild(wrap);
+    spin.appendChild(item);
   });
 }
 
@@ -987,6 +1014,16 @@ function showToast(msg){
   const t=document.getElementById('toastEl');
   t.textContent=msg;t.classList.add('show');
   setTimeout(()=>t.classList.remove('show'),2500);
+}
+// Login modal — tab switching + submit stub (spec §5.2 placeholder-only)
+function switchLoginTab(tab){
+  document.querySelectorAll('.login-tab').forEach(el=>el.classList.toggle('active',el.dataset.tab===tab));
+  document.querySelectorAll('.login-form').forEach(el=>el.style.display=el.dataset.form===tab?'flex':'none');
+}
+function submitLogin(){
+  const agree=document.getElementById('loginAgreeChk');
+  if(!agree||!agree.checked){showToast(lang==='zh'?'请先勾选用户协议与隐私政策':'Please agree to Terms & Privacy first');return}
+  showToast(lang==='zh'?'登录功能即将上线，敬请期待':'Login coming soon');
 }
 // ESC to close modals
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){['login','kefu','channel'].forEach(t=>closeModal(t))}});
